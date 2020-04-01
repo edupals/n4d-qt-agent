@@ -1,0 +1,13 @@
+
+find_package(ECM 1.0.0 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+
+add_executable(n4d-qt-agent agent.cpp loginwindow.cpp)
+target_link_libraries(n4d-qt-agent Qt5::Core Qt5::Widgets)
+
+
