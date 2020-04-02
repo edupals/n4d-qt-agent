@@ -21,6 +21,7 @@
 
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
+#include <QFormLayout>
 #include <QPushButton>
 #include <QLabel>
 
@@ -33,13 +34,16 @@ LoginWindow::LoginWindow() : QMainWindow()
 {
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("document-decrypt"));
-    setFixedSize(QSize(400, 300));
+    setFixedSize(QSize(300, 150));
     setWindowFlags(Qt::Dialog);
     
     QFrame* mainFrame = new QFrame(this);
-    QVBoxLayout* mainLayout = new QVBoxLayout();
+    QFormLayout* mainLayout = new QFormLayout();
     mainFrame->setLayout(mainLayout);
     setCentralWidget(mainFrame);
+    
+    mainLayout->addRow(new QLabel("user"),new QLineEdit());
+    mainLayout->addRow(new QLabel("password"),new QLineEdit());
     
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     QAbstractButton* btnClose;

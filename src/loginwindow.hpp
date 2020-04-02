@@ -21,6 +21,7 @@
 #define N4D_AGENT_LOGINUI
 
 #include <QMainWindow>
+#include <QLineEdit>
 
 namespace n4d
 {
@@ -34,6 +35,9 @@ namespace n4d
                 
             QString m_user;
             QString m_url;
+            
+            QLineEdit* editUser;
+            QLineEdit* editPass;
             
             LoginWindow();
         };
