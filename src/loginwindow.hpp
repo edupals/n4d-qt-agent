@@ -38,8 +38,9 @@ namespace n4d
             
             QLineEdit* editUser;
             QLineEdit* editPass;
+            QLineEdit* editServer;
             
-            LoginWindow();
+            LoginWindow(bool showServer);
         };
     }
 }

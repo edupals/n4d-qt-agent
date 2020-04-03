@@ -24,13 +24,14 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QDebug>
 
 #include <iostream>
 
 using namespace n4d::agent;
 using namespace std;
 
-LoginWindow::LoginWindow() : QMainWindow()
+LoginWindow::LoginWindow(bool showServer) : QMainWindow()
 {
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("changes-prevent"));
@@ -43,9 +44,6 @@ LoginWindow::LoginWindow() : QMainWindow()
     setCentralWidget(mainFrame);
     
     editUser = new QLineEdit();
-    editPass = new QLineEdit();
-    editPass->setEchoMode(QLineEdit::Password);
-
     QLabel* lbl = new QLabel();
     QIcon icon=QIcon::fromTheme("avatar-default-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
@@ -54,6 +52,8 @@ LoginWindow::LoginWindow() : QMainWindow()
     mainLayout->addWidget(new QLabel("User"),0,1);
     mainLayout->addWidget(editUser,0,2);
     
+    editPass = new QLineEdit();
+    editPass->setEchoMode(QLineEdit::Password);
     lbl = new QLabel();
     icon=QIcon::fromTheme("dialog-password-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
@@ -62,13 +62,36 @@ LoginWindow::LoginWindow() : QMainWindow()
     mainLayout->addWidget(new QLabel("Password"),1,1);
     mainLayout->addWidget(editPass,1,2);
     
+    if (showServer) {
+        editServer = new QLineEdit("https://localhost:9779");
+        lbl = new QLabel();
+        icon=QIcon::fromTheme("emblem-system-symbolic");
+        lbl->setPixmap(icon.pixmap(22,22));
+        
+        mainLayout->addWidget(lbl,2,0);
+        mainLayout->addWidget(new QLabel("Server"),2,1);
+        mainLayout->addWidget(editServer,2,2);
+    }
+    
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     QAbstractButton* btnClose;
     QAbstractButton* btnAction;
     btnClose=buttonBox->addButton(QDialogButtonBox::Close);
     btnAction=buttonBox->addButton("login",QDialogButtonBox::ActionRole);
     
-    mainLayout->addWidget(buttonBox,2,2);
+    mainLayout->addWidget(buttonBox,(showServer ? 3:2),2);
+    
+    connect(buttonBox,&QDialogButtonBox::clicked, [=](QAbstractButton* button) {
+        
+        if (button==btnClose) {
+            this->close();
+        }
+        
+        if (button==btnAction) {
+            qDebug()<<"login...";
+        }
+        
+    });
     
     show();
 }

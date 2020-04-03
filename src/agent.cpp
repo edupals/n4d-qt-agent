@@ -37,9 +37,13 @@ int main(int argc,char* argv[])
     parser.addHelpOption();
     parser.addVersionOption();
     
+    QStringList list = {"s","show-server","let user select a server"};
+    QCommandLineOption optShowServer(list);
+    parser.addOption(optShowServer);
+    
     parser.process(app);
     
-    LoginWindow win;
+    LoginWindow win(parser.isSet(optShowServer));
     app.exec();
     
     return 0;
