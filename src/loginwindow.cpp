@@ -21,7 +21,7 @@
 
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
-#include <QFormLayout>
+#include <QGridLayout>
 #include <QPushButton>
 #include <QLabel>
 
@@ -33,17 +33,34 @@ using namespace std;
 LoginWindow::LoginWindow() : QMainWindow()
 {
     setWindowTitle("N4D login");
-    setWindowIcon(QIcon::fromTheme("document-decrypt"));
+    setWindowIcon(QIcon::fromTheme("changes-prevent"));
     setFixedSize(QSize(300, 150));
     setWindowFlags(Qt::Dialog);
     
     QFrame* mainFrame = new QFrame(this);
-    QFormLayout* mainLayout = new QFormLayout();
+    QGridLayout* mainLayout = new QGridLayout();
     mainFrame->setLayout(mainLayout);
     setCentralWidget(mainFrame);
     
-    mainLayout->addRow(new QLabel("user"),new QLineEdit());
-    mainLayout->addRow(new QLabel("password"),new QLineEdit());
+    editUser = new QLineEdit();
+    editPass = new QLineEdit();
+    editPass->setEchoMode(QLineEdit::Password);
+
+    QLabel* lbl = new QLabel();
+    QIcon icon=QIcon::fromTheme("avatar-default-symbolic");
+    lbl->setPixmap(icon.pixmap(22,22));
+    
+    mainLayout->addWidget(lbl,0,0);
+    mainLayout->addWidget(new QLabel("User"),0,1);
+    mainLayout->addWidget(editUser,0,2);
+    
+    lbl = new QLabel();
+    icon=QIcon::fromTheme("dialog-password-symbolic");
+    lbl->setPixmap(icon.pixmap(22,22));
+    
+    mainLayout->addWidget(lbl,1,0);
+    mainLayout->addWidget(new QLabel("Password"),1,1);
+    mainLayout->addWidget(editPass,1,2);
     
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     QAbstractButton* btnClose;
@@ -51,7 +68,7 @@ LoginWindow::LoginWindow() : QMainWindow()
     btnClose=buttonBox->addButton(QDialogButtonBox::Close);
     btnAction=buttonBox->addButton("login",QDialogButtonBox::ActionRole);
     
-    mainLayout->addWidget(buttonBox);
+    mainLayout->addWidget(buttonBox,2,2);
     
     show();
 }
