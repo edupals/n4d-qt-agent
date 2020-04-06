@@ -22,7 +22,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 
-using namespace n4d::agent;
+using namespace edupals::n4d::agent;
 using namespace std;
 
 int main(int argc,char* argv[])

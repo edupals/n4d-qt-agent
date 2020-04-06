@@ -7,7 +7,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
 
+find_package(EdupalsBase REQUIRED)
+find_package(EdupalsN4D REQUIRED)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions")
+
 add_executable(n4d-qt-agent agent.cpp loginwindow.cpp)
-target_link_libraries(n4d-qt-agent Qt5::Core Qt5::Widgets)
+target_link_libraries(n4d-qt-agent Qt5::Core Qt5::Widgets Edupals::Base Edupals::N4D)
 
 

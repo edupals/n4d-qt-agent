@@ -23,25 +23,28 @@
 #include <QMainWindow>
 #include <QLineEdit>
 
-namespace n4d
-{
-    namespace agent
+namespace edupals {
+    namespace n4d
     {
-        class LoginWindow: public QMainWindow
+        namespace agent
         {
-            Q_OBJECT
-            
-            public:
+            class LoginWindow: public QMainWindow
+            {
+                Q_OBJECT
                 
-            QString m_user;
-            QString m_url;
-            
-            QLineEdit* editUser;
-            QLineEdit* editPass;
-            QLineEdit* editServer;
-            
-            LoginWindow(bool showServer);
-        };
+                public:
+                    
+                QString m_user;
+                QString m_url;
+                int m_port;
+                
+                QLineEdit* editUser;
+                QLineEdit* editPass;
+                QLineEdit* editServer;
+                
+                LoginWindow(bool showServer);
+            };
+        }
     }
 }
 
