@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QLineEdit>
+#include <QLabel>
 
 namespace edupals {
     namespace n4d
@@ -41,6 +42,7 @@ namespace edupals {
                 QLineEdit* editUser;
                 QLineEdit* editPass;
                 QLineEdit* editServer;
+                QLabel* lblError;
                 
                 LoginWindow(bool showServer,QString message);
             };

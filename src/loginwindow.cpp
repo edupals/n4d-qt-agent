@@ -43,7 +43,7 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("changes-prevent"));
-    setFixedSize(QSize(300, 150));
+    setFixedSize(QSize(300, 180));
     setWindowFlags(Qt::Dialog);
     
     QFrame* mainFrame = new QFrame(this);
@@ -51,14 +51,17 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     mainFrame->setLayout(mainLayout);
     setCentralWidget(mainFrame);
     
+    QLabel* lblMessage = new QLabel(message);
+    mainLayout->addWidget(lblMessage,0,1,1,-1, Qt::AlignHCenter);
+    
     editUser = new QLineEdit();
     QLabel* lbl = new QLabel();
     QIcon icon=QIcon::fromTheme("avatar-default-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
     
-    mainLayout->addWidget(lbl,0,0);
-    mainLayout->addWidget(new QLabel("User"),0,1);
-    mainLayout->addWidget(editUser,0,2);
+    mainLayout->addWidget(lbl,1,0);
+    mainLayout->addWidget(new QLabel("User"),1,1);
+    mainLayout->addWidget(editUser,1,2);
     
     editPass = new QLineEdit();
     editPass->setEchoMode(QLineEdit::Password);
@@ -66,9 +69,9 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     icon=QIcon::fromTheme("dialog-password-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
     
-    mainLayout->addWidget(lbl,1,0);
-    mainLayout->addWidget(new QLabel("Password"),1,1);
-    mainLayout->addWidget(editPass,1,2);
+    mainLayout->addWidget(lbl,2,0);
+    mainLayout->addWidget(new QLabel("Password"),2,1);
+    mainLayout->addWidget(editPass,2,2);
     
     if (showServer) {
         editServer = new QLineEdit(address+":"+QString::number(port));
@@ -76,10 +79,13 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
         icon=QIcon::fromTheme("emblem-system-symbolic");
         lbl->setPixmap(icon.pixmap(22,22));
         
-        mainLayout->addWidget(lbl,2,0);
-        mainLayout->addWidget(new QLabel("Server"),2,1);
-        mainLayout->addWidget(editServer,2,2);
+        mainLayout->addWidget(lbl,3,0);
+        mainLayout->addWidget(new QLabel("Server"),3,1);
+        mainLayout->addWidget(editServer,3,2);
     }
+    
+    lblError = new QLabel("");
+    mainLayout->addWidget(lblError,4,1,1,-1,Qt::AlignHCenter);
     
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     QAbstractButton* btnClose;
@@ -87,12 +93,12 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     btnClose=buttonBox->addButton(QDialogButtonBox::Close);
     btnAction=buttonBox->addButton("login",QDialogButtonBox::ActionRole);
     
-    mainLayout->addWidget(buttonBox,(showServer ? 3:2),2);
+    mainLayout->addWidget(buttonBox,5,2);
     
     connect(buttonBox,&QDialogButtonBox::clicked, [=](QAbstractButton* button) {
         
         if (button==btnClose) {
-            this->close();
+            QCoreApplication::exit(1);
         }
         
         if (button==btnAction) {
@@ -126,9 +132,17 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
             try {
                 variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
                 
-                cout<<value.get_string()<<endl;
+                string ticket = value.get_string();
                 
-                QCoreApplication::exit(0);
+                //Ok, this really has some room for improvement
+                if (ticket=="USER AND/OR PASSWORD ERROR") {
+                    lblError->setStyleSheet("QLabel{color: red}");
+                    lblError->setText("Bad user/password");
+                } else {
+                
+                    cout<<value.get_string()<<endl;
+                    QCoreApplication::exit(0);
+                }
             }
             catch(...) {
                 cerr<<"Error!"<<endl;
