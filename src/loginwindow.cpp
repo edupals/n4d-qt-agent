@@ -21,6 +21,7 @@
 
 #include <n4d.hpp>
 
+#include <QCoreApplication>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -35,10 +36,10 @@ using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
 
-LoginWindow::LoginWindow(bool showServer) : QMainWindow()
+LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
 {
-    m_url = "https://localhost";
-    m_port = 9779;
+    address = "https://localhost";
+    port = 9779;
     
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("changes-prevent"));
@@ -70,7 +71,7 @@ LoginWindow::LoginWindow(bool showServer) : QMainWindow()
     mainLayout->addWidget(editPass,1,2);
     
     if (showServer) {
-        editServer = new QLineEdit(m_url+":"+QString::number(m_port));
+        editServer = new QLineEdit(address+":"+QString::number(port));
         lbl = new QLabel();
         icon=QIcon::fromTheme("emblem-system-symbolic");
         lbl->setPixmap(icon.pixmap(22,22));
@@ -108,26 +109,30 @@ LoginWindow::LoginWindow(bool showServer) : QMainWindow()
                     return;
                 }
                 else {
-                    m_url=tmpUrl;
+                    address=tmpUrl;
                 }
                 
                 if (tmpPort>=0) {
-                    m_port = tmpPort;
+                    port = tmpPort;
                 }
             }
             
-            Client client(m_url.toStdString(),m_port);
-            clog<<"Connecting to "<<m_url.toStdString()<<":"<<m_port<<endl;
+            Client client(address.toStdString(),port);
+            clog<<"Connecting to "<<address.toStdString()<<":"<<port<<endl;
             client.set_flags(n4d::Option::Verbose);
             
             auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());
             
-            auto v = client.call("VariablesManager","listvars");
-            
-            clog<<v<<endl;
-            
-            variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
-            cout<<value<<endl;
+            try {
+                variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
+                
+                cout<<value.get_string()<<endl;
+                
+                QCoreApplication::exit(0);
+            }
+            catch(...) {
+                cerr<<"Error!"<<endl;
+            }
         }
         
     });

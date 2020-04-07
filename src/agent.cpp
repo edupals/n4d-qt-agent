@@ -21,6 +21,7 @@
 
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDebug>
 
 using namespace edupals::n4d::agent;
 using namespace std;
@@ -41,9 +42,19 @@ int main(int argc,char* argv[])
     QCommandLineOption optShowServer(list);
     parser.addOption(optShowServer);
     
+    list = QStringList({"m","message"});
+    QCommandLineOption optMessage(list,"add a custom message","message","");
+    parser.addOption(optMessage);
+    
     parser.process(app);
     
-    LoginWindow win(parser.isSet(optShowServer));
+    QString message="";
+    
+    if (parser.isSet(optMessage)) {
+        message = parser.value(optMessage); 
+    }
+    
+    LoginWindow win(parser.isSet(optShowServer),message);
     app.exec();
     
     return 0;

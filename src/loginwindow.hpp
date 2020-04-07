@@ -34,15 +34,15 @@ namespace edupals {
                 
                 public:
                     
-                QString m_user;
-                QString m_url;
-                int m_port;
+                QString user;
+                QString address;
+                int port;
                 
                 QLineEdit* editUser;
                 QLineEdit* editPass;
                 QLineEdit* editServer;
                 
-                LoginWindow(bool showServer);
+                LoginWindow(bool showServer,QString message);
             };
         }
     }
