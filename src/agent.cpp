@@ -57,5 +57,5 @@ int main(int argc,char* argv[])
     LoginWindow win(parser.isSet(optShowServer),message);
     app.exec();
     
-    return 0;
+    return 1;
 }

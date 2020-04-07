@@ -20,6 +20,7 @@
 #include "loginwindow.hpp"
 
 #include <n4d.hpp>
+#include <user.hpp>
 
 #include <QCoreApplication>
 #include <QDialogButtonBox>
@@ -32,6 +33,7 @@
 
 #include <iostream>
 
+using namespace edupals;
 using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
@@ -41,8 +43,10 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     address = "https://localhost";
     port = 9779;
     
+    system::User user = system::User::me();
+    
     setWindowTitle("N4D login");
-    setWindowIcon(QIcon::fromTheme("changes-prevent"));
+    setWindowIcon(QIcon::fromTheme("avatar-default-symbolic"));
     setFixedSize(QSize(300, 180));
     setWindowFlags(Qt::Dialog);
     
@@ -54,7 +58,7 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     QLabel* lblMessage = new QLabel(message);
     mainLayout->addWidget(lblMessage,0,1,1,-1, Qt::AlignHCenter);
     
-    editUser = new QLineEdit();
+    editUser = new QLineEdit(user.name.c_str());
     QLabel* lbl = new QLabel();
     QIcon icon=QIcon::fromTheme("avatar-default-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
@@ -125,7 +129,7 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
             
             Client client(address.toStdString(),port);
             clog<<"Connecting to "<<address.toStdString()<<":"<<port<<endl;
-            client.set_flags(n4d::Option::Verbose);
+            //client.set_flags(n4d::Option::Verbose);
             
             auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());
             
@@ -135,17 +139,30 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
                 string ticket = value.get_string();
                 
                 //Ok, this really has some room for improvement
+                bool fail=false;
+                
                 if (ticket=="USER AND/OR PASSWORD ERROR") {
+                    fail=true;
+                } else {
+                    if (ticket=="USER DOES NOT EXIST") {
+                        fail=true;
+                    }
+                }
+                
+                if (fail) {
                     lblError->setStyleSheet("QLabel{color: red}");
                     lblError->setText("Bad user/password");
-                } else {
-                
+                }
+                else {
                     cout<<value.get_string()<<endl;
                     QCoreApplication::exit(0);
                 }
             }
-            catch(...) {
-                cerr<<"Error!"<<endl;
+            catch(std::exception& e) {
+                lblError->setStyleSheet("QLabel{color: red}");
+                lblError->setText("Failed to connect N4D server");
+                
+                cerr<<e.what()<<endl;
             }
         }
         
