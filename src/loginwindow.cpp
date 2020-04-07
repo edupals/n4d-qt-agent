@@ -72,6 +72,10 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     lbl = new QLabel();
     icon=QIcon::fromTheme("dialog-password-symbolic");
     lbl->setPixmap(icon.pixmap(22,22));
+    connect(editPass,&QLineEdit::returnPressed,[=](){
+    
+        login();
+    });
     
     mainLayout->addWidget(lbl,2,0);
     mainLayout->addWidget(new QLabel("Password"),2,1);
@@ -106,7 +110,6 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
         }
         
         if (button==btnAction) {
-            qDebug()<<"login...";
             
             if (showServer) {
                 QUrl url(editServer->text());
@@ -127,46 +130,51 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
                 }
             }
             
-            Client client(address.toStdString(),port);
-            clog<<"Connecting to "<<address.toStdString()<<":"<<port<<endl;
-            //client.set_flags(n4d::Option::Verbose);
-            
-            auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());
-            
-            try {
-                variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
-                
-                string ticket = value.get_string();
-                
-                //Ok, this really has some room for improvement
-                bool fail=false;
-                
-                if (ticket=="USER AND/OR PASSWORD ERROR") {
-                    fail=true;
-                } else {
-                    if (ticket=="USER DOES NOT EXIST") {
-                        fail=true;
-                    }
-                }
-                
-                if (fail) {
-                    lblError->setStyleSheet("QLabel{color: red}");
-                    lblError->setText("Bad user/password");
-                }
-                else {
-                    cout<<value.get_string()<<endl;
-                    QCoreApplication::exit(0);
-                }
-            }
-            catch(std::exception& e) {
-                lblError->setStyleSheet("QLabel{color: red}");
-                lblError->setText("Failed to connect N4D server");
-                
-                cerr<<e.what()<<endl;
-            }
+            login();
         }
-        
     });
     
     show();
+}
+
+void LoginWindow::login()
+{
+    Client client(address.toStdString(),port);
+    clog<<"Connecting to "<<address.toStdString()<<":"<<port<<endl;
+    //client.set_flags(n4d::Option::Verbose);
+    
+    auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());
+    
+    try {
+        variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
+
+        string ticket = value.get_string();
+
+        //Ok, this really has some room for improvement
+        bool fail=false;
+
+        if (ticket=="USER AND/OR PASSWORD ERROR") {
+            fail=true;
+        } else {
+            if (ticket=="USER DOES NOT EXIST") {
+                fail=true;
+            }
+        }
+
+        if (fail) {
+            lblError->setStyleSheet("QLabel{color: red}");
+            lblError->setText("Bad user/password");
+        }
+        else {
+            cout<<value.get_string()<<endl;
+            QCoreApplication::exit(0);
+        }
+    }
+    catch(std::exception& e) {
+        lblError->setStyleSheet("QLabel{color: red}");
+        lblError->setText("Failed to connect N4D server");
+
+        cerr<<e.what()<<endl;
+    }
+    
 }

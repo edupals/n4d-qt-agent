@@ -45,6 +45,10 @@ namespace edupals {
                 QLabel* lblError;
                 
                 LoginWindow(bool showServer,QString message);
+                
+                protected:
+                
+                void login();
             };
         }
     }
