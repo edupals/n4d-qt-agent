@@ -29,6 +29,12 @@ namespace edupals {
     {
         namespace agent
         {
+            struct Connection
+            {
+                QString address;
+                int port;
+            };
+            
             class LoginWindow: public QMainWindow
             {
                 Q_OBJECT
@@ -36,15 +42,14 @@ namespace edupals {
                 public:
                     
                 QString user;
-                QString address;
-                int port;
+                Connection connection;
                 
                 QLineEdit* editUser;
                 QLineEdit* editPass;
                 QLineEdit* editServer;
                 QLabel* lblError;
                 
-                LoginWindow(bool showServer,QString message);
+                LoginWindow(bool showServer,QString defaultAddress,QString message);
                 
                 protected:
                 

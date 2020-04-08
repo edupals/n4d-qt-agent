@@ -38,16 +38,44 @@ using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
 
-LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
+static Connection parseUrl(QString inAddress)
 {
-    address = "https://localhost";
-    port = 9779;
+    Connection ret;
+    
+    QUrl url(inAddress);
+    
+    QString tmpAddress=url.host();
+    QString tmpAddres2=url.url();
+    int tmpPort=url.port();
+    
+    if (tmpPort==-1) {
+        tmpPort=9779;
+    }
+    
+    if (tmpAddress.size()==0) {
+        if (tmpAddres2.size()==0) {
+            QCoreApplication::exit(2);
+        }
+        else {
+            tmpAddress=tmpAddres2;
+        }
+    }
+    
+    ret.address="https://"+tmpAddress;
+    ret.port=tmpPort;
+    
+    return ret;
+}
+
+LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message) : QMainWindow()
+{
+    connection = parseUrl(defaultAddress);
     
     system::User user = system::User::me();
     
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("avatar-default-symbolic"));
-    setFixedSize(QSize(300, 180));
+    setFixedSize(QSize(300, 210));
     setWindowFlags(Qt::Dialog);
     
     QFrame* mainFrame = new QFrame(this);
@@ -82,7 +110,7 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
     mainLayout->addWidget(editPass,2,2);
     
     if (showServer) {
-        editServer = new QLineEdit(address+":"+QString::number(port));
+        editServer = new QLineEdit(connection.address+":"+QString::number(connection.port));
         lbl = new QLabel();
         icon=QIcon::fromTheme("emblem-system-symbolic");
         lbl->setPixmap(icon.pixmap(22,22));
@@ -112,22 +140,7 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
         if (button==btnAction) {
             
             if (showServer) {
-                QUrl url(editServer->text());
-                
-                QString tmpUrl=url.url();
-                int tmpPort=url.port();
-                
-                if (tmpUrl.size()==0) {
-                    qDebug()<<"Invalid url!";
-                    return;
-                }
-                else {
-                    address=tmpUrl;
-                }
-                
-                if (tmpPort>=0) {
-                    port = tmpPort;
-                }
+                connection = parseUrl(editServer->text());
             }
             
             login();
@@ -139,8 +152,8 @@ LoginWindow::LoginWindow(bool showServer,QString message) : QMainWindow()
 
 void LoginWindow::login()
 {
-    Client client(address.toStdString(),port);
-    clog<<"Connecting to "<<address.toStdString()<<":"<<port<<endl;
+    Client client(connection.address.toStdString(),connection.port);
+    clog<<"Connecting to "<<connection.address.toStdString()<<":"<<connection.port<<endl;
     //client.set_flags(n4d::Option::Verbose);
     
     auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());

@@ -14,4 +14,4 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions")
 add_executable(n4d-qt-agent agent.cpp loginwindow.cpp)
 target_link_libraries(n4d-qt-agent Qt5::Core Qt5::Widgets Edupals::Base Edupals::N4D)
 
-
+install(TARGETS n4d-qt-agent RUNTIME DESTINATION bin)

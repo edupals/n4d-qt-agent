@@ -38,14 +38,18 @@ int main(int argc,char* argv[])
     parser.addHelpOption();
     parser.addVersionOption();
     
-    QStringList list = {"s","show-server","let user select a server"};
-    QCommandLineOption optShowServer(list);
+    QStringList list = {"s","show-server"};
+    QCommandLineOption optShowServer(list,"let user select a server");
     parser.addOption(optShowServer);
     
     list = QStringList({"m","message"});
     QCommandLineOption optMessage(list,"add a custom message","message","");
     parser.addOption(optMessage);
     
+    list = QStringList({"a","address"});
+    QCommandLineOption optAddress(list,"set a custom n4d server address","address","https://localhost:9779");
+    parser.addOption(optAddress);
+
     parser.process(app);
     
     QString message="";
@@ -54,7 +58,9 @@ int main(int argc,char* argv[])
         message = parser.value(optMessage); 
     }
     
-    LoginWindow win(parser.isSet(optShowServer),message);
+    QString address = parser.value(optAddress);
+    
+    LoginWindow win(parser.isSet(optShowServer), address, message);
     app.exec();
     
     return 1;
