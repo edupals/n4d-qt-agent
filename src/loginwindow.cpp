@@ -18,6 +18,7 @@
 */
 
 #include "loginwindow.hpp"
+#include "locale.hpp"
 
 #include <n4d.hpp>
 #include <user.hpp>
@@ -69,6 +70,8 @@ static Connection parseUrl(QString inAddress)
 
 LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message) : QMainWindow()
 {
+    locale::domain("n4d-qt-agent");
+    
     connection = parseUrl(defaultAddress);
     
     system::User user = system::User::me();
@@ -127,7 +130,7 @@ LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message
     QAbstractButton* btnClose;
     QAbstractButton* btnAction;
     btnClose=buttonBox->addButton(QDialogButtonBox::Close);
-    btnAction=buttonBox->addButton("login",QDialogButtonBox::ActionRole);
+    btnAction=buttonBox->addButton(locale::T("login"),QDialogButtonBox::ActionRole);
     
     mainLayout->addWidget(buttonBox,5,2);
     
@@ -176,7 +179,7 @@ void LoginWindow::login()
 
         if (fail) {
             lblError->setStyleSheet("QLabel{color: red}");
-            lblError->setText("Bad user/password");
+            lblError->setText(locale::T("Bad user/password"));
         }
         else {
             cout<<value.get_string()<<endl;
@@ -185,7 +188,7 @@ void LoginWindow::login()
     }
     catch(std::exception& e) {
         lblError->setStyleSheet("QLabel{color: red}");
-        lblError->setText("Failed to connect N4D server");
+        lblError->setText(locale::T("Failed to connect N4D server"));
 
         cerr<<e.what()<<endl;
     }
