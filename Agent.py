@@ -3,7 +3,7 @@ import os
 import subprocess
 import time
 
-class N4DAgent:
+class Agent:
     def __init__(self):
         pass
     
@@ -11,21 +11,25 @@ class N4DAgent:
         self.ps = subprocess.Popen(("/usr/bin/n4d-qt-agent"),stdout=subprocess.PIPE)
         
     
-    def wait(self):
+    def get_ticket(self):
         output = self.ps.communicate()[0]
-        print("return code:{0}".format(self.ps.returncode))
-        print(output)
+        
+        if (self.ps.returncode!=0):
+            return None
+        
+        tmp=output.split()
+        return tmp
         
     def is_running(self):
         return (self.ps.poll()==None)
     
 print("running...")
-agent=N4DAgent()
+agent=Agent()
 agent.run()
 
 while (agent.is_running()):
     time.sleep(1)
-    print("tick")
+    print("waiting...")
     
-agent.wait()
-print("done")
+print(agent.get_ticket())
+

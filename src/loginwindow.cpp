@@ -155,11 +155,14 @@ LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message
 
 void LoginWindow::login()
 {
+    std::string user = editUser->text().toStdString();
+    std::string password = editPass->text().toStdString();
+    
     Client client(connection.address.toStdString(),connection.port);
     clog<<"Connecting to "<<connection.address.toStdString()<<":"<<connection.port<<endl;
     //client.set_flags(n4d::Option::Verbose);
     
-    auth::Credential login(editUser->text().toStdString(),editPass->text().toStdString());
+    auth::Credential login(user,password);
     
     try {
         variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
@@ -182,7 +185,8 @@ void LoginWindow::login()
             lblError->setText(locale::T("Bad user/password"));
         }
         else {
-            cout<<value.get_string()<<endl;
+            //dump user and ticket to standard output
+            cout<<user<<" "<<value.get_string()<<endl;
             QCoreApplication::exit(0);
         }
     }
