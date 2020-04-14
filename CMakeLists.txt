@@ -3,3 +3,4 @@ project(n4d-qt-agent)
 
 
 add_subdirectory(src)
+add_subdirectory(lib)
