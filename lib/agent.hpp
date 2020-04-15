@@ -21,6 +21,7 @@
 #define N4D_AGENT_LIB
 
 #include <process.hpp>
+#include <n4d.hpp>
 
 #include <string>
 #include <exception>
@@ -29,36 +30,39 @@ namespace edupals
 {
     namespace n4d
     {
-        namespace exception
+        namespace agent
         {
-            class SpawnError : public std::exception
+            namespace exception
             {
+                class SpawnError : public std::exception
+                {
+                    public:
+                    
+                    const char* what() const throw()
+                    {
+                        return "Failed to spawn N4D Qt agent";
+                    }
+                };
+            }
+            
+            class LoginDialog
+            {
+                protected:
+                
+                system::Process child;
+                int status;
+                int rpipe [2];
+                
                 public:
                 
-                const char* what() const throw()
-                {
-                    return "Failed to spawn N4D Qt agent";
-                }
+                LoginDialog();
+                //LoginDialog(std::string message,std::string address,bool show_server);
+                
+                void run();
+                bool ready();
+                auth::Credential value();
             };
         }
-        
-        class Agent
-        {
-            protected:
-            
-            system::Process child;
-            int status;
-            int rpipe [2];
-            
-            public:
-            
-                
-            Agent();
-            
-            void run();
-            bool is_running();
-            std::string get_ticket();
-        };
     }
 }
 

@@ -24,21 +24,23 @@
 #include <thread>
 
 using namespace edupals::n4d;
+using namespace edupals::n4d::agent;
 using namespace std;
 
 int main(int argc,char* argv[])
 {
-    Agent agent;
+    LoginDialog dialog;
     
-    agent.run();
+    dialog.run();
     
-    while (agent.is_running()) {
-        cout<<"waiting..."<<endl;
+    while (!dialog.ready()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
     
-    cout<<"done:"<<endl;
-    cout<<"["<<agent.get_ticket()<<"]"<<endl;
+    auth::Credential cred = dialog.value();
+    
+    cout<<"user:["<<cred.user<<"]"<<endl;
+    cout<<"key:["<<cred.key<<"]"<<endl;
     
     return 0;
 }

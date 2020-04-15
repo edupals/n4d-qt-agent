@@ -24,13 +24,14 @@
 #include <iostream>
 
 using namespace edupals::n4d;
+using namespace edupals::n4d::agent;
 using namespace std;
 
-Agent::Agent()
+LoginDialog::LoginDialog()
 {
 }
 
-void Agent::run()
+void LoginDialog::run()
 {
     char* args[]={"/usr/bin/n4d-qt-agent",nullptr};
     
@@ -54,32 +55,48 @@ void Agent::run()
         exit(0);
     }
     else {
-        clog<<"pid:"<<pid<<endl;
         close(rpipe[1]);
         child = system::Process(pid);
     }
 }
 
-bool Agent::is_running()
+bool LoginDialog::ready()
 {
-    int status;
     pid_t pid = waitpid(child.pid(),&status,WNOHANG);
     
-    return (pid==0);
+    return (pid!=0);
 }
 
-string Agent::get_ticket()
+auth::Credential LoginDialog::value()
 {
 
+    auth::Credential cred;
+    
     char buffer[1024];
     size_t nbytes;
     
     nbytes=read(rpipe[0],buffer,1024);
     
     if (nbytes>0) {
-        return string(buffer,nbytes);
+        string ticket(buffer,nbytes);
+        
+        int cut=-1;
+        
+        for (int n=0;n<ticket.size();n++) {
+            if (ticket[n]==' ') {
+                cut = n;
+            }
+        }
+        
+        if (cut>0) {
+            string user = ticket.substr(0,cut);
+            string key = ticket.substr(cut+1);
+            
+            cred.user=user;
+            cred.key=key;
+            cred.type=auth::Type::Key;
+        }
     }
-    else {
-        return "none";
-    }
+    
+    return cred;
 }
