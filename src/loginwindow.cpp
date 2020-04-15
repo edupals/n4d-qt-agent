@@ -186,7 +186,7 @@ void LoginWindow::login()
         }
         else {
             //dump user and ticket to standard output
-            cout<<user<<" "<<value.get_string()<<endl;
+            cout<<user<<" "<<value.get_string();
             QCoreApplication::exit(0);
         }
     }

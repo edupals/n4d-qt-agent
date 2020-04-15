@@ -20,6 +20,7 @@
 #include "agent.hpp"
 
 #include <unistd.h>
+#include <sys/wait.h>
 #include <iostream>
 
 using namespace edupals::n4d;
@@ -53,6 +54,7 @@ void Agent::run()
         exit(0);
     }
     else {
+        clog<<"pid:"<<pid<<endl;
         close(rpipe[1]);
         child = system::Process(pid);
     }
@@ -60,13 +62,24 @@ void Agent::run()
 
 bool Agent::is_running()
 {
-    return child.exists();
+    int status;
+    pid_t pid = waitpid(child.pid(),&status,WNOHANG);
+    
+    return (pid==0);
 }
 
 string Agent::get_ticket()
 {
+
     char buffer[1024];
-    read(rpipe[0],buffer,1024);
+    size_t nbytes;
     
-    return string(buffer);
+    nbytes=read(rpipe[0],buffer,1024);
+    
+    if (nbytes>0) {
+        return string(buffer,nbytes);
+    }
+    else {
+        return "none";
+    }
 }

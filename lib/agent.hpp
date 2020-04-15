@@ -47,6 +47,7 @@ namespace edupals
             protected:
             
             system::Process child;
+            int status;
             int rpipe [2];
             
             public:

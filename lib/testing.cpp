@@ -38,7 +38,7 @@ int main(int argc,char* argv[])
     }
     
     cout<<"done:"<<endl;
-    cout<<agent.get_ticket()<<endl;
+    cout<<"["<<agent.get_ticket()<<"]"<<endl;
     
     return 0;
 }
