@@ -37,10 +37,12 @@ int main(int argc,char* argv[])
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
     
-    auth::Credential cred = dialog.value();
+    Ticket ticket = dialog.value();
     
-    cout<<"user:["<<cred.user<<"]"<<endl;
-    cout<<"key:["<<cred.key<<"]"<<endl;
+    cout<<"user:"<<ticket.credential.user<<endl;
+    cout<<"key:"<<ticket.credential.key.value<<endl;
+    cout<<"address:"<<ticket.address<<endl;
+    cout<<"port:"<<ticket.port<<endl;
     
     return 0;
 }

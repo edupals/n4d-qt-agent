@@ -25,6 +25,7 @@
 
 #include <string>
 #include <exception>
+#include <vector>
 
 namespace edupals
 {
@@ -45,22 +46,44 @@ namespace edupals
                 };
             }
             
+            enum class State
+            {
+                NotReady,
+                Success,
+                Error
+            };
+            
+            class Ticket
+            {
+                public:
+                
+                State status;
+                auth::Credential credential;
+                std::string address;
+                int port;
+            };
+            
             class LoginDialog
             {
                 protected:
                 
+                Ticket ticket;
                 system::Process child;
                 int status;
                 int rpipe [2];
+                std::vector<std::string> cmdline;
+                
+                std::vector<std::string> split(std::string in);
                 
                 public:
                 
                 LoginDialog();
-                //LoginDialog(std::string message,std::string address,bool show_server);
+                LoginDialog(std::string message);
+                LoginDialog(std::string message,std::string address,bool show_server);
                 
                 void run();
                 bool ready();
-                auth::Credential value();
+                Ticket value();
             };
         }
     }

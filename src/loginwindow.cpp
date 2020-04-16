@@ -157,9 +157,10 @@ void LoginWindow::login()
 {
     std::string user = editUser->text().toStdString();
     std::string password = editPass->text().toStdString();
+    std::string address = connection.address.toStdString();
     
-    Client client(connection.address.toStdString(),connection.port);
-    clog<<"Connecting to "<<connection.address.toStdString()<<":"<<connection.port<<endl;
+    Client client(address,connection.port);
+    clog<<"Connecting to "<<address<<":"<<connection.port<<endl;
     //client.set_flags(n4d::Option::Verbose);
     
     auth::Credential login(user,password);
@@ -186,7 +187,7 @@ void LoginWindow::login()
         }
         else {
             //dump user and ticket to standard output
-            cout<<user<<" "<<value.get_string();
+            cout<<user<<" "<<value.get_string()<<" "<<address<<" "<<connection.port;
             QCoreApplication::exit(0);
         }
     }

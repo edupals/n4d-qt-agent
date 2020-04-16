@@ -27,12 +27,57 @@ using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
 
+vector<string> LoginDialog::split(string in)
+{
+    vector<string> ret;
+    string tmp;
+    
+    for (char c:in) {
+        
+        if (c==' ') {
+            ret.push_back(tmp);
+            tmp="";
+        }
+        else {
+            tmp=tmp+c;
+        }
+    }
+    
+    if (tmp.size()>0) {
+        ret.push_back(tmp);
+    }
+    
+    return ret;
+}
+
 LoginDialog::LoginDialog()
 {
+    cmdline.push_back("/usr/bin/n4d-qt-agent");
+}
+
+LoginDialog::LoginDialog(string message) : LoginDialog()
+{
+    cmdline.push_back("-m");
+    cmdline.push_back(message);
+}
+
+LoginDialog::LoginDialog(string message,string address,bool show_server) : LoginDialog()
+{
+    cmdline.push_back("-m");
+    cmdline.push_back(message);
+    
+    cmdline.push_back("-a");
+    cmdline.push_back(address);
+    
+    if (show_server) {
+        cmdline.push_back("-s");
+    }
 }
 
 void LoginDialog::run()
 {
+    ticket.status=State::NotReady;
+    
     char* args[]={"/usr/bin/n4d-qt-agent",nullptr};
     
     pipe(rpipe);
@@ -67,36 +112,34 @@ bool LoginDialog::ready()
     return (pid!=0);
 }
 
-auth::Credential LoginDialog::value()
+Ticket LoginDialog::value()
 {
 
-    auth::Credential cred;
-    
     char buffer[1024];
     size_t nbytes;
     
     nbytes=read(rpipe[0],buffer,1024);
     
     if (nbytes>0) {
-        string ticket(buffer,nbytes);
+        string in(buffer,nbytes);
+        close(rpipe[0]);
+
+        vector<string> values = split(in);
         
-        int cut=-1;
-        
-        for (int n=0;n<ticket.size();n++) {
-            if (ticket[n]==' ') {
-                cut = n;
-            }
-        }
-        
-        if (cut>0) {
-            string user = ticket.substr(0,cut);
-            string key = ticket.substr(cut+1);
+        if (values.size()==4) {
+            string user = values[0];
+            string key = values[1];
+            string address = values[2];
+            string port_s = values[3];
             
-            cred.user=user;
-            cred.key=key;
-            cred.type=auth::Type::Key;
+            int port = stoi(port_s);
+            
+            ticket.credential = auth::Credential(user,auth::Key(key));
+            ticket.address = address;
+            ticket.port = port;
+            ticket.status = State::Success;
         }
     }
     
-    return cred;
+    return ticket;
 }
