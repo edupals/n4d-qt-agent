@@ -114,7 +114,15 @@ void LoginDialog::run()
     ticket.credential=auth::Credential();
     status=0;
     
-    char* args[]={"/usr/bin/n4d-qt-agent",nullptr};
+    //char* args[]={"/usr/bin/n4d-qt-agent",nullptr};
+    char* args[32];
+    int n=0;
+    
+    for (string& s:cmdline) {
+        args[n]=( char*)s.c_str();
+        n++;
+    }
+    args[n]=0;
     
     pipe(rpipe);
     

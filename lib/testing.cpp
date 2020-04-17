@@ -29,7 +29,7 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    LoginDialog dialog;
+    LoginDialog dialog("Testing N4D Qt Agent");
     
     dialog.run();
     
