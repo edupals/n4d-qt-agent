@@ -61,6 +61,8 @@ namespace edupals
                 auth::Credential credential;
                 std::string address;
                 int port;
+                
+                bool valid();
             };
             
             class LoginDialog
@@ -74,6 +76,7 @@ namespace edupals
                 std::vector<std::string> cmdline;
                 
                 std::vector<std::string> split(std::string in);
+                void compute_ticket();
                 
                 public:
                 

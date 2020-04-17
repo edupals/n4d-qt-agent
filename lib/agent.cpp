@@ -27,6 +27,11 @@ using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
 
+bool Ticket::valid()
+{
+    return (status==State::Success);
+}
+
 vector<string> LoginDialog::split(string in)
 {
     vector<string> ret;
@@ -48,6 +53,35 @@ vector<string> LoginDialog::split(string in)
     }
     
     return ret;
+}
+
+void LoginDialog::compute_ticket()
+{
+    char buffer[1024];
+    size_t nbytes;
+    
+    nbytes=read(rpipe[0],buffer,1024);
+    
+    if (nbytes>0) {
+        string in(buffer,nbytes);
+        close(rpipe[0]);
+
+        vector<string> values = split(in);
+        
+        if (values.size()==4) {
+            string user = values[0];
+            string key = values[1];
+            string address = values[2];
+            string port_s = values[3];
+            
+            int port = stoi(port_s);
+            
+            ticket.credential = auth::Credential(user,auth::Key(key));
+            ticket.address = address;
+            ticket.port = port;
+            ticket.status = State::Success;
+        }
+    }
 }
 
 LoginDialog::LoginDialog()
@@ -77,6 +111,8 @@ LoginDialog::LoginDialog(string message,string address,bool show_server) : Login
 void LoginDialog::run()
 {
     ticket.status=State::NotReady;
+    ticket.credential=auth::Credential();
+    status=0;
     
     char* args[]={"/usr/bin/n4d-qt-agent",nullptr};
     
@@ -108,36 +144,23 @@ void LoginDialog::run()
 bool LoginDialog::ready()
 {
     pid_t pid = waitpid(child.pid(),&status,WNOHANG);
-    
     return (pid!=0);
 }
 
 Ticket LoginDialog::value()
 {
-
-    char buffer[1024];
-    size_t nbytes;
     
-    nbytes=read(rpipe[0],buffer,1024);
-    
-    if (nbytes>0) {
-        string in(buffer,nbytes);
-        close(rpipe[0]);
-
-        vector<string> values = split(in);
-        
-        if (values.size()==4) {
-            string user = values[0];
-            string key = values[1];
-            string address = values[2];
-            string port_s = values[3];
-            
-            int port = stoi(port_s);
-            
-            ticket.credential = auth::Credential(user,auth::Key(key));
-            ticket.address = address;
-            ticket.port = port;
-            ticket.status = State::Success;
+    if (ticket.status==State::NotReady) {
+        if (ready()) {
+            if (WIFEXITED(status)!=0) {
+                if (WEXITSTATUS(status)!=0) {
+                    ticket.status=State::Error;
+                }
+                else {
+                    compute_ticket();
+                    ticket.status=State::Success;
+                }
+            }
         }
     }
     

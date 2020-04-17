@@ -33,16 +33,20 @@ int main(int argc,char* argv[])
     
     dialog.run();
     
+    Ticket ticket;
+    
     while (!dialog.ready()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     
-    Ticket ticket = dialog.value();
+    ticket = dialog.value();
     
-    cout<<"user:"<<ticket.credential.user<<endl;
-    cout<<"key:"<<ticket.credential.key.value<<endl;
-    cout<<"address:"<<ticket.address<<endl;
-    cout<<"port:"<<ticket.port<<endl;
+    if (ticket.valid()) {
+        clog<<"user:"<<ticket.credential.user<<endl;
+        clog<<"key:"<<ticket.credential.key.value<<endl;
+        clog<<"address:"<<ticket.address<<endl;
+        clog<<"port:"<<ticket.port<<endl;
+    }
     
     return 0;
 }
