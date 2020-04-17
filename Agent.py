@@ -3,33 +3,58 @@ import os
 import subprocess
 import time
 
-class Agent:
-    def __init__(self):
-        pass
+class LoginDialog:
+    
+    def __init__(self,message="",address="",show_server=False):
+        self.ticket=None
+        
+        self.cmdline=["/usr/bin/n4d-qt-agent"]
+        
+        if (message!=""):
+            self.cmdline.append("-m")
+            self.cmdline.append(message)
+        
+        if (address!=""):
+            self.cmdline.append("-a")
+            self.cmdline.append(address)
+        
+        if (show_server):
+            self.cmdline.append("-s")
     
     def run(self):
-        self.ps = subprocess.Popen(("/usr/bin/n4d-qt-agent"),stdout=subprocess.PIPE)
-        
+        self.ticket=None
+        self.ps = subprocess.Popen(self.cmdline,stdout=subprocess.PIPE)
     
-    def get_ticket(self):
-        output = self.ps.communicate()[0]
+    def ready(self):
+        return (self.ps.poll()!=None)
+    
+    def value(self):
         
-        if (self.ps.returncode!=0):
+        if (not self.ready()):
             return None
         
-        tmp=output.split()
-        return tmp
+        if (self.ticket==None):
+            output = self.ps.communicate()[0]
         
-    def is_running(self):
-        return (self.ps.poll()==None)
-    
-print("running...")
-agent=Agent()
-agent.run()
+            if (self.ps.returncode!=0):
+                self.ticket=[False]
+            else:
+                tmp=output.split()
+                if (len(tmp)>=4):
+                    self.ticket=[True,str(tmp[0]),str(tmp[1]),str(tmp[2]),int(tmp[3])]
+                else:
+                    self.ticket=[False]
+        
+        return self.ticket
+        
+if __name__=="__main__":
+    print("running...")
+    dialog=LoginDialog()
+    dialog.run()
 
-while (agent.is_running()):
-    time.sleep(1)
-    print("waiting...")
-    
-print(agent.get_ticket())
+    while (not dialog.ready()):
+        time.sleep(1)
+        print("waiting...")
+        
+    print(dialog.value())
 
