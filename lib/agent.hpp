@@ -62,6 +62,9 @@ namespace edupals
                 std::string address;
                 int port;
                 
+                /*!
+                 * Whenever the ticket status is Succes or not
+                */
                 bool valid();
             };
             
@@ -80,12 +83,37 @@ namespace edupals
                 
                 public:
                 
+                /*!
+                 * Default constructor, no welcome message and addressed to localhost
+                */
                 LoginDialog();
+                
+                /*!
+                 * Constructor with custom message
+                 */
                 LoginDialog(std::string message);
+                
+                /*!
+                 * Constructor with custom message and custom address
+                 * \param message welcome message
+                 * \param address default n4d address
+                 * \param show_server whenever allow user to view/change server
+                */
                 LoginDialog(std::string message,std::string address,bool show_server);
                 
+                /*!
+                 * launch dialog, non-blocking
+                */
                 void run();
+                
+                /*!
+                 * returns true if the dialog already finished, with either success or not. Non-blocking.
+                */
                 bool ready();
+                
+                /*!
+                 * Gets the ticket. The ticket may be NotReady, Succes or Error but will always return a Ticket, so it must be checked. Non-blocking.
+                */
                 Ticket value();
             };
         }
