@@ -7,5 +7,5 @@ add_subdirectory(lib)
 install(DIRECTORY include/ DESTINATION include/edupals/n4d)
 
 install(FILES "EdupalsN4DAgentConfig.cmake"
-    DESTINATION "lib/cmake/EdupalsN4D"
+    DESTINATION "lib/cmake/EdupalsN4DAgent"
 )
