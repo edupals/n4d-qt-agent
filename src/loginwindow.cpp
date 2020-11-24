@@ -159,11 +159,13 @@ void LoginWindow::login()
     std::string password = editPass->text().toStdString();
     std::string address = connection.address.toStdString();
     
-    Client client(address,connection.port);
+    Client client(address,connection.port,user,password);
     clog<<"Connecting to "<<address<<":"<<connection.port<<endl;
     //client.set_flags(n4d::Option::Verbose);
+        
+    auth::Credential ticket client.get_ticket();
     
-    auth::Credential login(user,password);
+    
     
     try {
         variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
