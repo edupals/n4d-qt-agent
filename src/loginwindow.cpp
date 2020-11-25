@@ -162,41 +162,31 @@ void LoginWindow::login()
     Client client(address,connection.port,user,password);
     clog<<"Connecting to "<<address<<":"<<connection.port<<endl;
     //client.set_flags(n4d::Option::Verbose);
-        
-    auth::Credential ticket client.get_ticket();
-    
-    
     
     try {
-        variant::Variant value = client.call("NTicketsManager","get_ticket",{login.user},login);
-
-        string ticket = value.get_string();
-
-        //Ok, this really has some room for improvement
-        bool fail=false;
-
-        if (ticket=="USER AND/OR PASSWORD ERROR") {
-            fail=true;
-        } else {
-            if (ticket=="USER DOES NOT EXIST") {
-                fail=true;
-            }
-        }
-
-        if (fail) {
-            lblError->setStyleSheet("QLabel{color: red}");
-            lblError->setText(locale::T("Bad user/password"));
-        }
-        else {
+        auth::Credential ticket client.get_ticket();
+        
+        if (ticket.key.valid()) {
             //dump user and ticket to standard output
-            cout<<user<<" "<<value.get_string()<<" "<<address<<" "<<connection.port;
+            cout<<user<<" "<<ticket.key.get_string()<<" "<<address<<" "<<connection.port;
             QCoreApplication::exit(0);
         }
+        else {
+            //may this happen?
+            lblError->setStyleSheet("QLabel{color: red}");
+            lblError->setText(locale::T("Not a valid ticket!"));
+        }
     }
-    catch(std::exception& e) {
+    catch (exception::AuthenticationFailed& e) {
         lblError->setStyleSheet("QLabel{color: red}");
-        lblError->setText(locale::T("Failed to connect N4D server"));
-
+        lblError->setText(locale::T("Bad user/password"));
+        
+        cerr<<e.what()<<endl;
+    }
+    catch (std::exception& e) {
+        lblError->setStyleSheet("QLabel{color: red}");
+        lblError->setText(locale::T("Error connecting N4D server"));
+        
         cerr<<e.what()<<endl;
     }
     
