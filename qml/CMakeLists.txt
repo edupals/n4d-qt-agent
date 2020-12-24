@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.0)
-project(qml-n4d-agent)
-
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
