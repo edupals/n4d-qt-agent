@@ -9,7 +9,7 @@ Rectangle
     N4DAgent.Login
     {
         showServer: true
-        server: "https://server:9800"
+        server: "https://localhost"
         //user: "netadmin"
         
         anchors.centerIn: parent

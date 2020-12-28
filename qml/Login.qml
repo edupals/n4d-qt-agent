@@ -14,6 +14,7 @@ QQC2.StackView {
     initialItem: firstPage
     
     property alias server: serverField.text
+    property int port: 9800
     property alias user: userField.text
     property alias showServer: rowServer.visible
     
@@ -29,7 +30,16 @@ QQC2.StackView {
         target: n4dAgent
         
         function onTicket(code,value) {
-            console.log("ticket granted!");
+            btnLogin.enabled=true;
+            if (code==0) {
+                console.log("ticket granted!");
+                console.log("value:"+value);
+                root.push(secondPage);
+            }
+            else {
+                console.log("Error ",code);
+                console.log(value);
+            }
         }
     }
     
@@ -104,6 +114,7 @@ QQC2.StackView {
                 spacing: units.smallSpacing
                 
                 QQC2.Button {
+                    id: btnCancel
                     text:"Cancel"
                     
                     onClicked: {
@@ -112,17 +123,14 @@ QQC2.StackView {
                 }
                 
                 QQC2.Button {
+                    id: btnLogin
                     text:"Login"
                     
                     onClicked: {
-                        var ticket={};
-                        ticket["server"]=serverField.text;
-                        ticket["user"]=userField.text;
-                        ticket["key"]="j34hj5g34hj53j5g4j3h5";
-                        //logged(ticket);
-                        n4dAgent.requestTicket(serverField.text,9779,userField.text,passwordField.text);
                         
-                        root.push(secondPage);
+                        n4dAgent.requestTicket(serverField.text,root.port,userField.text,passwordField.text);
+                        btnLogin.enabled=false;
+                        //root.push(secondPage);
                     }
                 }
                 

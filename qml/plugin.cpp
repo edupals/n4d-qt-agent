@@ -24,6 +24,8 @@
 #include "plugin.h"
 
 #include <user.hpp>
+#include <n4d.hpp>
+#include <variant.hpp>
 
 #include <QQmlExtensionPlugin>
 #include <QObject>
@@ -52,7 +54,25 @@ void Proxy::requestTicket(QString address,int port,QString user,QString password
     clog<<"requestTicket"<<endl;
     
     QThread* worker = QThread::create([=]() {
-        emit ticket(0,QLatin1String("All your base are belong to us"));
+        
+        n4d::Client client(address.toStdString(),port,user.toStdString(),password.toStdString());
+        
+        try {
+            n4d::auth::Credential credential = client.get_ticket();
+            
+            if (credential.key) {
+                QLatin1String sep(" ");
+                QString n4dticket = QLatin1String("N4DTKV2")+sep+address+sep+QString::number(port)+sep+user+sep+QString::fromStdString(credential.key.value);
+                
+                emit ticket(0,n4dticket);
+            }
+            else {
+                emit ticket(2,QString::fromStdString(credential.key.value));
+            }
+        }
+        catch (std::exception&e) {
+            emit ticket(1,QLatin1String("ERROR 1"));
+        }
     });
     
     worker->start();
