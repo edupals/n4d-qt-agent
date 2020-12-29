@@ -9,13 +9,14 @@ Rectangle
     N4DAgent.Login
     {
         showServer: true
-        server: "https://localhost"
+        //server: "https://localhost"
         //user: "netadmin"
+        showCancel: false
         
         anchors.centerIn: parent
         
         onLogged: {
-            console.log(ticket["server"],ticket["user"]);
+            console.log(ticket);
         }
     }
 }

@@ -44,7 +44,7 @@ class Proxy: public QObject
         return m_userName;
     }
     
-    Q_INVOKABLE void requestTicket(QString address,int port,QString user,QString password);
+    Q_INVOKABLE void requestTicket(QString address,QString user,QString password);
     
     Q_SIGNALS:
     

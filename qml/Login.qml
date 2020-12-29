@@ -13,10 +13,11 @@ QQC2.StackView {
     
     initialItem: firstPage
     
+    property alias text: labelCustomMessage.text
     property alias server: serverField.text
-    property int port: 9800
     property alias user: userField.text
     property alias showServer: rowServer.visible
+    property alias showCancel: btnCancel.enabled
     
     signal logged(var ticket)
     signal canceled()
@@ -39,6 +40,8 @@ QQC2.StackView {
             else {
                 console.log("Error ",code);
                 console.log(value);
+                passwordField.text="";
+                errorLabel.text="Error "+code;
             }
         }
     }
@@ -54,13 +57,13 @@ QQC2.StackView {
             spacing: units.smallSpacing
             
             QQC2.Label {
-                id: labelCustomText
+                id: labelCustomMessage
                 text: "Put N4D credentials"
             }
             
             Row {
                 id: rowServer
-                anchors.horizontalCenter:parent.horizontalCenter
+                anchors.right: rowUser.right
                 spacing: units.smallSpacing
                 visible: false
                 
@@ -71,15 +74,15 @@ QQC2.StackView {
                 
                 QQC2.TextField {
                     id: serverField
-                    text: "localhost"
+                    text: "https://localhost:9800"
                 }
             }
             
             Row {
                 id: rowUser
                 spacing: units.smallSpacing
+                anchors.horizontalCenter:parent.horizontalCenter
                 
-                anchors.right: rowServer.right
                 QQC2.Label {
                     text:"User"
                     anchors.verticalCenter: userField.verticalCenter
@@ -94,8 +97,8 @@ QQC2.StackView {
             Row {
                 id:rowPassword
                 spacing: units.smallSpacing
-                
                 anchors.right: rowServer.right
+                
                 QQC2.Label {
                     anchors.verticalCenter: passwordField.verticalCenter
                     text:"Password"
@@ -105,6 +108,13 @@ QQC2.StackView {
                     id: passwordField
                     echoMode: TextInput.Password
                 }
+            }
+            
+            QQC2.Label {
+                id: errorLabel
+                anchors.horizontalCenter:parent.horizontalCenter
+                color: "#EE2222"
+                
             }
             
             Row {
@@ -128,7 +138,7 @@ QQC2.StackView {
                     
                     onClicked: {
                         
-                        n4dAgent.requestTicket(serverField.text,root.port,userField.text,passwordField.text);
+                        n4dAgent.requestTicket(serverField.text,userField.text,passwordField.text);
                         btnLogin.enabled=false;
                         //root.push(secondPage);
                     }

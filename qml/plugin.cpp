@@ -33,6 +33,7 @@
 #include <QAbstractItemModel>
 #include <QMimeData>
 #include <QThread>
+#include <QUrl>
 
 #include <iostream>
 #include <chrono>
@@ -49,20 +50,23 @@ Proxy::Proxy() : QObject(nullptr)
     
 }
 
-void Proxy::requestTicket(QString address,int port,QString user,QString password)
+void Proxy::requestTicket(QString address,QString user,QString password)
 {
     clog<<"requestTicket"<<endl;
     
+    //QUrl url(address);
+    
+    
     QThread* worker = QThread::create([=]() {
         
-        n4d::Client client(address.toStdString(),port,user.toStdString(),password.toStdString());
+        n4d::Client client(address.toStdString(),user.toStdString(),password.toStdString());
         
         try {
             n4d::auth::Credential credential = client.get_ticket();
             
             if (credential.key) {
                 QLatin1String sep(" ");
-                QString n4dticket = QLatin1String("N4DTKV2")+sep+address+sep+QString::number(port)+sep+user+sep+QString::fromStdString(credential.key.value);
+                QString n4dticket = QLatin1String("N4DTKV2")+sep+address+sep+user+sep+QString::fromStdString(credential.key.value);
                 
                 emit ticket(0,n4dticket);
             }
@@ -70,7 +74,10 @@ void Proxy::requestTicket(QString address,int port,QString user,QString password
                 emit ticket(2,QString::fromStdString(credential.key.value));
             }
         }
-        catch (std::exception&e) {
+        catch(n4d::exception::AuthenticationFailed& e) {
+            emit ticket(3,QLatin1String("Authentication Failed"));
+        }
+        catch (std::exception& e) {
             emit ticket(1,QLatin1String("ERROR 1"));
         }
     });
