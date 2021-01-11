@@ -68,126 +68,24 @@ static Connection parseUrl(QString inAddress)
     return ret;
 }
 
-LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message) : QMainWindow()
+LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message) : QQuickView()
 {
     locale::domain("n4d-qt-agent");
     
-    connection = parseUrl(defaultAddress);
+    //connection = parseUrl(defaultAddress);
     
     system::User user = system::User::me();
-    
+    /*
     setWindowTitle("N4D login");
     setWindowIcon(QIcon::fromTheme("avatar-default-symbolic"));
     setFixedSize(QSize(300, 210));
     setWindowFlags(Qt::Dialog);
+    */
+    setSource(QUrl(QStringLiteral("qrc:/login.qml")));
     
-    QFrame* mainFrame = new QFrame(this);
-    QGridLayout* mainLayout = new QGridLayout();
-    mainFrame->setLayout(mainLayout);
-    setCentralWidget(mainFrame);
-    
-    QLabel* lblMessage = new QLabel(message);
-    mainLayout->addWidget(lblMessage,0,1,1,-1, Qt::AlignHCenter);
-    
-    editUser = new QLineEdit(user.name.c_str());
-    QLabel* lbl = new QLabel();
-    QIcon icon=QIcon::fromTheme("avatar-default-symbolic");
-    lbl->setPixmap(icon.pixmap(22,22));
-    
-    mainLayout->addWidget(lbl,1,0);
-    mainLayout->addWidget(new QLabel("User"),1,1);
-    mainLayout->addWidget(editUser,1,2);
-    
-    editPass = new QLineEdit();
-    editPass->setEchoMode(QLineEdit::Password);
-    lbl = new QLabel();
-    icon=QIcon::fromTheme("dialog-password-symbolic");
-    lbl->setPixmap(icon.pixmap(22,22));
-    connect(editPass,&QLineEdit::returnPressed,[=](){
-    
-        login();
-    });
-    
-    mainLayout->addWidget(lbl,2,0);
-    mainLayout->addWidget(new QLabel("Password"),2,1);
-    mainLayout->addWidget(editPass,2,2);
-    
-    if (showServer) {
-        editServer = new QLineEdit(connection.address+":"+QString::number(connection.port));
-        lbl = new QLabel();
-        icon=QIcon::fromTheme("emblem-system-symbolic");
-        lbl->setPixmap(icon.pixmap(22,22));
-        
-        mainLayout->addWidget(lbl,3,0);
-        mainLayout->addWidget(new QLabel("Server"),3,1);
-        mainLayout->addWidget(editServer,3,2);
-    }
-    
-    lblError = new QLabel("");
-    mainLayout->addWidget(lblError,4,1,1,-1,Qt::AlignHCenter);
-    
-    QDialogButtonBox* buttonBox = new QDialogButtonBox();
-    QAbstractButton* btnClose;
-    QAbstractButton* btnAction;
-    btnClose=buttonBox->addButton(QDialogButtonBox::Close);
-    btnAction=buttonBox->addButton(locale::T("login"),QDialogButtonBox::ActionRole);
-    
-    mainLayout->addWidget(buttonBox,5,2);
-    
-    connect(buttonBox,&QDialogButtonBox::clicked, [=](QAbstractButton* button) {
-        
-        if (button==btnClose) {
-            QCoreApplication::exit(1);
-        }
-        
-        if (button==btnAction) {
-            
-            if (showServer) {
-                connection = parseUrl(editServer->text());
-            }
-            
-            login();
-        }
-    });
-    
-    show();
 }
 
 void LoginWindow::login()
 {
-    std::string user = editUser->text().toStdString();
-    std::string password = editPass->text().toStdString();
-    std::string address = connection.address.toStdString();
-    
-    Client client(address,connection.port,user,password);
-    clog<<"Connecting to "<<address<<":"<<connection.port<<endl;
-    //client.set_flags(n4d::Option::Verbose);
-    
-    try {
-        auth::Credential ticket client.get_ticket();
-        
-        if (ticket.key.valid()) {
-            //dump user and ticket to standard output
-            cout<<user<<" "<<ticket.key.get_string()<<" "<<address<<" "<<connection.port;
-            QCoreApplication::exit(0);
-        }
-        else {
-            //may this happen?
-            lblError->setStyleSheet("QLabel{color: red}");
-            lblError->setText(locale::T("Not a valid ticket!"));
-        }
-    }
-    catch (exception::AuthenticationFailed& e) {
-        lblError->setStyleSheet("QLabel{color: red}");
-        lblError->setText(locale::T("Bad user/password"));
-        
-        cerr<<e.what()<<endl;
-    }
-    catch (std::exception& e) {
-        lblError->setStyleSheet("QLabel{color: red}");
-        lblError->setText(locale::T("Error connecting N4D server"));
-        
-        cerr<<e.what()<<endl;
-    }
     
 }

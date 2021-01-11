@@ -20,9 +20,7 @@
 #ifndef N4D_AGENT_LOGINUI
 #define N4D_AGENT_LOGINUI
 
-#include <QMainWindow>
-#include <QLineEdit>
-#include <QLabel>
+#include <QQuickView>
 
 namespace edupals {
     namespace n4d
@@ -35,7 +33,7 @@ namespace edupals {
                 int port;
             };
             
-            class LoginWindow: public QMainWindow
+            class LoginWindow: public QQuickView
             {
                 Q_OBJECT
                 
@@ -43,11 +41,6 @@ namespace edupals {
                     
                 QString user;
                 Connection connection;
-                
-                QLineEdit* editUser;
-                QLineEdit* editPass;
-                QLineEdit* editServer;
-                QLabel* lblError;
                 
                 LoginWindow(bool showServer,QString defaultAddress,QString message);
                 

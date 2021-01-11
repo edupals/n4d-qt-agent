@@ -10,8 +10,8 @@ Rectangle
     {
         showServer: true
         server: "https://localhost:9779"
-        //user: "netadmin"
-        showCancel: false
+        // user: "netadmin"
+        // showCancel: false
         
         anchors.centerIn: parent
         

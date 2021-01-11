@@ -17,7 +17,7 @@ QQC2.StackView {
     property alias server: serverField.text
     property alias user: userField.text
     property alias showServer: rowServer.visible
-    property alias showCancel: btnCancel.enabled
+    property alias showCancel: btnCancel.visible
     
     signal logged(var ticket)
     signal canceled()
@@ -32,10 +32,11 @@ QQC2.StackView {
         
         function onTicket(code,value) {
             btnLogin.enabled=true;
-            if (code==0) {
+            if (code==N4DAgent.Status.CallSuccessful) {
                 console.log("ticket granted!");
                 console.log("value:"+value);
                 root.push(secondPage);
+                logged(value);
             }
             else {
                 console.log("Error ",code);
@@ -44,6 +45,10 @@ QQC2.StackView {
                 errorLabel.text="Error "+code;
             }
         }
+    }
+    
+    Component.onCompleted: {
+        //n4dAgent.requestLocalTicket(n4dAgent.userName);
     }
     
     QQC2.Pane {
@@ -68,7 +73,7 @@ QQC2.StackView {
                 visible: false
                 
                 QQC2.Label {
-                    text:"Server"
+                    text:i18nd("n4d-qt-agent","Server")
                     anchors.verticalCenter: serverField.verticalCenter
                 }
                 
@@ -84,7 +89,7 @@ QQC2.StackView {
                 anchors.horizontalCenter:parent.horizontalCenter
                 
                 QQC2.Label {
-                    text:"User"
+                    text:i18nd("n4d-qt-agent","User")
                     anchors.verticalCenter: userField.verticalCenter
                 }
                 
@@ -101,7 +106,7 @@ QQC2.StackView {
                 
                 QQC2.Label {
                     anchors.verticalCenter: passwordField.verticalCenter
-                    text:"Password"
+                    text:i18nd("n4d-qt-agent","Password")
                 }
                 
                 QQC2.TextField {
@@ -125,7 +130,7 @@ QQC2.StackView {
                 
                 QQC2.Button {
                     id: btnCancel
-                    text:"Cancel"
+                    text:i18nd("n4d-qt-agent","Cancel")
                     
                     onClicked: {
                         canceled();
@@ -134,11 +139,12 @@ QQC2.StackView {
                 
                 QQC2.Button {
                     id: btnLogin
-                    text:"Login"
+                    text:i18nd("n4d-qt-agent","Login")
                     
                     onClicked: {
                         
                         n4dAgent.requestTicket(serverField.text,userField.text,passwordField.text);
+                        passwordField.text="";
                         btnLogin.enabled=false;
                         //root.push(secondPage);
                     }
@@ -160,7 +166,7 @@ QQC2.StackView {
             
             QQC2.Label {
                 anchors.horizontalCenter:parent.horizontalCenter
-                text: "Logged as:"
+                text: i18nd("n4d-qt-agent","Logged as:")
             }
             QQC2.Label {
                 anchors.horizontalCenter:parent.horizontalCenter
@@ -170,7 +176,7 @@ QQC2.StackView {
             QQC2.Button {
                 anchors.horizontalCenter:parent.horizontalCenter
                 
-                text: "Back"
+                text: i18nd("n4d-qt-agent","Back")
                 
                 onClicked: {
                     root.pop();

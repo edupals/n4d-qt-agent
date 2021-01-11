@@ -61,6 +61,7 @@ int main(int argc,char* argv[])
     QString address = parser.value(optAddress);
     
     LoginWindow win(parser.isSet(optShowServer), address, message);
+    win.show();
     
     return app.exec();
 }

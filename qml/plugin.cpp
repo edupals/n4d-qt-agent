@@ -28,15 +28,14 @@
 #include <variant.hpp>
 
 #include <QQmlExtensionPlugin>
-#include <QObject>
 #include <QQmlEngine>
+#include <QObject>
 #include <QAbstractItemModel>
 #include <QMimeData>
 #include <QThread>
-#include <QUrl>
+#include <QDebug>
 
 #include <iostream>
-#include <chrono>
 
 using namespace std;
 using namespace edupals;
@@ -52,10 +51,7 @@ Proxy::Proxy() : QObject(nullptr)
 
 void Proxy::requestTicket(QString address,QString user,QString password)
 {
-    clog<<"requestTicket"<<endl;
-    
-    //QUrl url(address);
-    
+    qDebug()<<"requesting remote ticket...";
     
     QThread* worker = QThread::create([=]() {
         
@@ -68,21 +64,77 @@ void Proxy::requestTicket(QString address,QString user,QString password)
                 QLatin1String sep(" ");
                 QString n4dticket = QLatin1String("N4DTKV2")+sep+address+sep+user+sep+QString::fromStdString(credential.key.value);
                 
-                emit ticket(0,n4dticket);
+                qDebug()<<n4dticket;
+                
+                emit ticket(Status::CallSuccessful,n4dticket);
             }
             else {
-                emit ticket(2,QString::fromStdString(credential.key.value));
+                qDebug()<<"Invalid key:"<<QString::fromStdString(credential.key.value);
+                emit ticket(Status::InvalidKey,QLatin1String(""));
             }
         }
         catch(n4d::exception::AuthenticationFailed& e) {
-            emit ticket(3,QLatin1String("Authentication Failed"));
+            qDebug()<<"Authentication Failed";
+            emit ticket(Status::AuthenticationFailed,QLatin1String(""));
+        }
+        catch(n4d::exception::InvalidServerResponse& e) {
+            qDebug()<<e.what();
+            emit ticket(Status::InvalidServerResponse,QLatin1String(""));
         }
         catch (std::exception& e) {
-            emit ticket(1,QLatin1String("ERROR 1"));
+            qDebug()<<e.what();
+            emit ticket(Status::UnknownError,QLatin1String(""));
         }
     });
     
     worker->start();
+}
+
+void Proxy::requestLocalTicket(QString user)
+{
+    qDebug()<<"requesting local ticket...";
+    
+    n4d::auth::Key userKey = n4d::auth::Key::user_key(user.toStdString());
+    
+    if (userKey.valid()) {
+        qDebug()<<"found a local ticket";
+        
+        QLatin1String sep(" ");
+        QString n4dticket = QLatin1String("N4DTKV2 https://127.0.0.1:9779")+sep+user+sep+QString::fromStdString(userKey.value);
+        emit ticket(Status::CallSuccessful,n4dticket);
+    }
+    else {
+        qDebug()<<"no local ticket found, requesting one...";
+        
+        QThread* worker = QThread::create([=]() {
+            
+            n4d::Client client("https://127.0.0.1:9779",user.toStdString(),"");
+            
+            try {
+                n4d::auth::Credential credential = client.create_ticket();
+                
+                if (credential.key) {
+                    
+                    QLatin1String sep(" ");
+                    QString n4dticket = QLatin1String("N4DTKV2 https://127.0.0.1:9779")+sep+user+sep+QString::fromStdString(credential.key.value);
+                    
+                    qDebug()<<n4dticket;
+                    emit ticket(Status::CallSuccessful,n4dticket);
+                }
+                else {
+                    qDebug()<<"Invalid key:"<<QString::fromStdString(credential.key.value);
+                    emit ticket(Status::InvalidKey,QLatin1String(""));
+                }
+            }
+            catch(std::exception& e) {
+                qDebug()<<e.what();
+                emit ticket(Status::UnknownError,QLatin1String(""));
+            }
+            
+        });
+        
+        worker->start();
+    }
 }
 
 AgentPlugin::AgentPlugin(QObject* parent) : QQmlExtensionPlugin(parent)
@@ -91,6 +143,7 @@ AgentPlugin::AgentPlugin(QObject* parent) : QQmlExtensionPlugin(parent)
 
 void AgentPlugin::registerTypes(const char* uri)
 {
+    qmlRegisterType<Status> (uri, 1, 0, "Status");
     qmlRegisterType<Proxy> (uri, 1, 0, "Proxy");
     qmlRegisterAnonymousType<QMimeData>(uri, 1);
     

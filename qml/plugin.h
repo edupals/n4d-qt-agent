@@ -27,6 +27,25 @@
 #include <QQmlExtensionPlugin>
 #include <QObject>
 
+class Status: public QObject
+{
+    Q_OBJECT
+    
+    public:
+        
+    enum StatusCode
+    {
+        CallSuccessful = 0,
+        AuthenticationFailed = -10,
+        InvalidServerResponse = -1001,
+        UnknownError = -2000,
+        InvalidKey = -2001
+    };
+        
+    Q_ENUM(StatusCode)
+    
+};
+
 class Proxy: public QObject
 {
     Q_OBJECT
@@ -45,6 +64,7 @@ class Proxy: public QObject
     }
     
     Q_INVOKABLE void requestTicket(QString address,QString user,QString password);
+    Q_INVOKABLE void requestLocalTicket(QString user);
     
     Q_SIGNALS:
     
