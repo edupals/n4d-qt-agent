@@ -8,8 +8,8 @@ Rectangle
     
     N4DAgent.Login
     {
-        showServer: true
-        server: "https://localhost:9779"
+        showAddress: true
+        address: "https://localhost:9779"
         //user: "netadmin"
         showCancel: false
         

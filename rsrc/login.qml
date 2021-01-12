@@ -8,15 +8,13 @@ Rectangle
     
     N4DAgent.Login
     {
-        showServer: true
-        server: "https://localhost:9779"
-        // user: "netadmin"
-        // showCancel: false
+        showAddress: bridge.showAddress
+        address: bridge.defaultAddress
         
         anchors.centerIn: parent
         
         onLogged: {
-            console.log(ticket);
+            bridge.logged(ticket);
         }
     }
 }

@@ -21,16 +21,10 @@
 #include "locale.hpp"
 
 #include <n4d.hpp>
-#include <user.hpp>
 
+#include <QQmlContext>
 #include <QCoreApplication>
-#include <QDialogButtonBox>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QLabel>
 #include <QDebug>
-#include <QUrl>
 
 #include <iostream>
 
@@ -39,53 +33,21 @@ using namespace edupals::n4d;
 using namespace edupals::n4d::agent;
 using namespace std;
 
-static Connection parseUrl(QString inAddress)
+LoginWindow::LoginWindow(QString defaultAddress, bool showAddress, QString message) : QQuickView()
 {
-    Connection ret;
     
-    QUrl url(inAddress);
+    setTitle("N4D login");
+    setIcon(QIcon::fromTheme("avatar-default-symbolic"));
+    setMaximumSize(QSize(460, 260));
+    setMinimumSize(QSize(460, 260));
+    setFlags(Qt::Dialog);
     
-    QString tmpAddress=url.host();
-    QString tmpAddres2=url.url();
-    int tmpPort=url.port();
-    
-    if (tmpPort==-1) {
-        tmpPort=9779;
-    }
-    
-    if (tmpAddress.size()==0) {
-        if (tmpAddres2.size()==0) {
-            QCoreApplication::exit(2);
-        }
-        else {
-            tmpAddress=tmpAddres2;
-        }
-    }
-    
-    ret.address="https://"+tmpAddress;
-    ret.port=tmpPort;
-    
-    return ret;
-}
-
-LoginWindow::LoginWindow(bool showServer,QString defaultAddress, QString message) : QQuickView()
-{
-    locale::domain("n4d-qt-agent");
-    
-    //connection = parseUrl(defaultAddress);
-    
-    system::User user = system::User::me();
-    /*
-    setWindowTitle("N4D login");
-    setWindowIcon(QIcon::fromTheme("avatar-default-symbolic"));
-    setFixedSize(QSize(300, 210));
-    setWindowFlags(Qt::Dialog);
-    */
+    QQmlContext* ctxt = rootContext();
+    Bridge* bridge = new Bridge(defaultAddress,showAddress,message);
+    connect(bridge,&Bridge::logged, [](QString ticket) {
+            qDebug()<<"TICKET: "<<ticket;
+        });
+    ctxt->setContextProperty(QStringLiteral("bridge"),bridge);
     setSource(QUrl(QStringLiteral("qrc:/login.qml")));
-    
-}
-
-void LoginWindow::login()
-{
     
 }

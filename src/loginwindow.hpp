@@ -27,26 +27,40 @@ namespace edupals {
     {
         namespace agent
         {
-            struct Connection
+            class Bridge: public QObject
             {
-                QString address;
-                int port;
+                Q_OBJECT
+                
+                Q_PROPERTY(QString defaultAddress MEMBER m_defaultAddress CONSTANT)
+                Q_PROPERTY(bool showAddress MEMBER m_showAddress CONSTANT)
+                Q_PROPERTY(QString message MEMBER m_message CONSTANT)
+                
+                public:
+                
+                Bridge(QString defaultAddress,bool showAddress,QString message) :
+                    m_defaultAddress(defaultAddress), m_showAddress(showAddress), m_message(message) 
+                {
+                    
+                }
+                
+                QString m_defaultAddress;
+                bool m_showAddress;
+                QString m_message;
+                
+                Q_SIGNALS:
+                
+                void logged(QString ticket);
+                
             };
-            
+
             class LoginWindow: public QQuickView
             {
                 Q_OBJECT
                 
                 public:
-                    
-                QString user;
-                Connection connection;
                 
-                LoginWindow(bool showServer,QString defaultAddress,QString message);
+                LoginWindow(QString defaultAddress,bool showAddress,QString message);
                 
-                protected:
-                
-                void login();
             };
         }
     }

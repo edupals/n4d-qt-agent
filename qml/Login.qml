@@ -13,10 +13,10 @@ QQC2.StackView {
     
     initialItem: firstPage
     
-    property alias text: labelCustomMessage.text
-    property alias server: serverField.text
+    property alias message: labelCustomMessage.text
+    property alias address: addressField.text
     property alias user: userField.text
-    property alias showServer: rowServer.visible
+    property alias showAddress: rowAddress.visible
     property alias showCancel: btnCancel.visible
     
     signal logged(var ticket)
@@ -67,18 +67,18 @@ QQC2.StackView {
             }
             
             Row {
-                id: rowServer
+                id: rowAddress
                 anchors.right: rowUser.right
                 spacing: units.smallSpacing
                 visible: false
                 
                 QQC2.Label {
-                    text:i18nd("n4d-qt-agent","Server")
-                    anchors.verticalCenter: serverField.verticalCenter
+                    text:i18nd("n4d-qt-agent","Address")
+                    anchors.verticalCenter: addressField.verticalCenter
                 }
                 
                 QQC2.TextField {
-                    id: serverField
+                    id: addressField
                     text: "https://localhost:9800"
                 }
             }
@@ -102,7 +102,7 @@ QQC2.StackView {
             Row {
                 id:rowPassword
                 spacing: units.smallSpacing
-                anchors.right: rowServer.right
+                anchors.right: rowAddress.right
                 
                 QQC2.Label {
                     anchors.verticalCenter: passwordField.verticalCenter
@@ -143,7 +143,7 @@ QQC2.StackView {
                     
                     onClicked: {
                         
-                        n4dAgent.requestTicket(serverField.text,userField.text,passwordField.text);
+                        n4dAgent.requestTicket(addressField.text,userField.text,passwordField.text);
                         passwordField.text="";
                         btnLogin.enabled=false;
                         //root.push(secondPage);
