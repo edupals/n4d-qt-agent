@@ -18,6 +18,7 @@ QQC2.StackView {
     property alias user: userField.text
     property alias showAddress: rowAddress.visible
     property alias showCancel: btnCancel.visible
+    property bool trustLocal: false
     
     signal logged(var ticket)
     signal canceled()
@@ -33,22 +34,21 @@ QQC2.StackView {
         function onTicket(code,value) {
             btnLogin.enabled=true;
             if (code==N4DAgent.Status.CallSuccessful) {
-                console.log("ticket granted!");
-                console.log("value:"+value);
                 root.push(secondPage);
-                logged(value);
+                root.logged(value);
             }
             else {
-                console.log("Error ",code);
-                console.log(value);
                 passwordField.text="";
                 errorLabel.text="Error "+code;
+                root.failed(code,value);
             }
         }
     }
     
     Component.onCompleted: {
-        //n4dAgent.requestLocalTicket(n4dAgent.userName);
+        if (trustLocal) {
+            n4dAgent.requestLocalTicket(n4dAgent.userName);
+        }
     }
     
     QQC2.Pane {
@@ -79,7 +79,7 @@ QQC2.StackView {
                 
                 QQC2.TextField {
                     id: addressField
-                    text: "https://localhost:9800"
+                    text: "https://localhost:9779"
                 }
             }
             
@@ -133,7 +133,8 @@ QQC2.StackView {
                     text:i18nd("n4d-qt-agent","Cancel")
                     
                     onClicked: {
-                        canceled();
+                        root.canceled();
+                        
                     }
                 }
                 
@@ -142,7 +143,6 @@ QQC2.StackView {
                     text:i18nd("n4d-qt-agent","Login")
                     
                     onClicked: {
-                        
                         n4dAgent.requestTicket(addressField.text,userField.text,passwordField.text);
                         passwordField.text="";
                         btnLogin.enabled=false;

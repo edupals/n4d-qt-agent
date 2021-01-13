@@ -43,10 +43,17 @@ LoginWindow::LoginWindow(QString defaultAddress, bool showAddress, QString messa
     setFlags(Qt::Dialog);
     
     QQmlContext* ctxt = rootContext();
+    
     Bridge* bridge = new Bridge(defaultAddress,showAddress,message);
+    
     connect(bridge,&Bridge::logged, [](QString ticket) {
-            qDebug()<<"TICKET: "<<ticket;
+            cout<<ticket.toStdString()<<endl;
         });
+    
+    connect(bridge,&Bridge::canceled, []() {
+            QCoreApplication::exit(1);
+        });
+    
     ctxt->setContextProperty(QStringLiteral("bridge"),bridge);
     setSource(QUrl(QStringLiteral("qrc:/login.qml")));
     

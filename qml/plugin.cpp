@@ -33,6 +33,7 @@
 #include <QAbstractItemModel>
 #include <QMimeData>
 #include <QThread>
+#include <QUrl>
 #include <QDebug>
 
 #include <iostream>
@@ -49,9 +50,58 @@ Proxy::Proxy() : QObject(nullptr)
     
 }
 
+static int completeURL(QString& address)
+{
+    QUrl url(address);
+    QUrl nurl;
+    
+    if (!url.isValid()) {
+        return -1;
+    }
+    qDebug()<<"host "<<url.host();
+    qDebug()<<"path "<<url.path();
+    qDebug()<<"authority "<<url.authority();
+    
+    if (url.scheme().count()==0) {
+        qDebug()<<"empty scheme";
+        
+        nurl.setScheme(QLatin1String("https"));
+    }
+    else {
+        nurl.setScheme(url.scheme());
+    }
+    
+    if (url.port()==-1) {
+        qDebug()<<"no port";
+        
+        nurl.setPort(9779);
+    }
+    else {
+        nurl.setPort(url.port());
+    }
+    
+    if (url.host().count()==0) {
+        if (url.path().count()>0) {
+            nurl.setHost(url.path());
+        }
+        else {
+            return -1;
+        }
+    }
+    else {
+        nurl.setHost(url.host());
+    }
+    
+    qDebug()<<nurl.toString();
+    address = nurl.toString();
+    
+    return 0;
+}
+
 void Proxy::requestTicket(QString address,QString user,QString password)
 {
-    qDebug()<<"requesting remote ticket...";
+    completeURL(address);
+    qDebug()<<"requesting remote ticket to "<<address;
     
     QThread* worker = QThread::create([=]() {
         

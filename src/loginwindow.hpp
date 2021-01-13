@@ -50,6 +50,7 @@ namespace edupals {
                 Q_SIGNALS:
                 
                 void logged(QString ticket);
+                void canceled();
                 
             };
 

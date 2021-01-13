@@ -11,7 +11,8 @@ Rectangle
         showAddress: true
         address: "https://localhost:9779"
         //user: "netadmin"
-        showCancel: false
+        showCancel: true
+        //trustLocal: true
         
         anchors.centerIn: parent
         

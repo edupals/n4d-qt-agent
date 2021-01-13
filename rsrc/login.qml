@@ -1,10 +1,12 @@
 import QtQuick 2.6
+import QtQuick.Controls 2.6 as QQC2
 import Edupals.N4D.Agent 1.0 as N4DAgent
 
-Rectangle
+QQC2.Pane
 {
     width: 450
     height: 250
+    anchors.centerIn: parent
     
     N4DAgent.Login
     {
@@ -15,6 +17,10 @@ Rectangle
         
         onLogged: {
             bridge.logged(ticket);
+        }
+        
+        onCanceled: {
+            bridge.canceled();
         }
     }
 }
