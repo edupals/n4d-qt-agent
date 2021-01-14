@@ -3,13 +3,15 @@ import Edupals.N4D.Agent 1.0 as N4DAgent
 
 Rectangle
 {
-    width: 450
-    height: 250
+    width: loginWidget.width
+    height: loginWidget.height
     
     N4DAgent.Login
     {
+        id: loginWidget
+        
         showAddress: true
-        address: "https://localhost:9779"
+        //address: "https://localhost:9779"
         //user: "netadmin"
         showCancel: true
         //trustLocal: true

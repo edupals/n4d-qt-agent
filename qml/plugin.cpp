@@ -58,13 +58,8 @@ static int completeURL(QString& address)
     if (!url.isValid()) {
         return -1;
     }
-    qDebug()<<"host "<<url.host();
-    qDebug()<<"path "<<url.path();
-    qDebug()<<"authority "<<url.authority();
     
     if (url.scheme().count()==0) {
-        qDebug()<<"empty scheme";
-        
         nurl.setScheme(QLatin1String("https"));
     }
     else {
@@ -72,8 +67,6 @@ static int completeURL(QString& address)
     }
     
     if (url.port()==-1) {
-        qDebug()<<"no port";
-        
         nurl.setPort(9779);
     }
     else {
@@ -92,7 +85,6 @@ static int completeURL(QString& address)
         nurl.setHost(url.host());
     }
     
-    qDebug()<<nurl.toString();
     address = nurl.toString();
     
     return 0;
