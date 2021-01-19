@@ -13,8 +13,9 @@ Rectangle
         showAddress: true
         //address: "https://localhost:9779"
         //user: "netadmin"
-        showCancel: true
+        showCancel: false
         //trustLocal: true
+        inGroups: ["sudo","adm"]
         
         anchors.centerIn: parent
         

@@ -37,9 +37,36 @@
 #include <QDebug>
 
 #include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 using namespace edupals;
+
+static bool inGroups(n4d::Client& client,QVariantList groups)
+{
+    
+    try {
+        vector<string> userGroups = client.get_groups();
+        
+        for (int n=0;n<groups.size();n++) {
+            QVariant tmp = groups.at(n);
+            string name = tmp.value<QString>().toStdString();
+            
+            for (string ug : userGroups) {
+                if (ug==name) {
+                    return true;
+                }
+            }
+            
+        }
+    }
+    catch (std::exception& e) {
+        return false;
+    }
+    
+    return false;
+}
 
 Proxy::Proxy() : QObject(nullptr) 
 {
@@ -90,7 +117,7 @@ static int completeURL(QString& address)
     return 0;
 }
 
-void Proxy::requestTicket(QString address,QString user,QString password)
+void Proxy::requestTicket(QString address,QString user,QString password, QVariantList groups)
 {
     completeURL(address);
     qDebug()<<"requesting remote ticket to "<<address;

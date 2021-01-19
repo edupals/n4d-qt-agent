@@ -20,7 +20,7 @@ QQC2.StackView {
     property alias showAddress: rowAddress.visible
     property alias showCancel: btnCancel.visible
     property bool trustLocal: false
-    
+    property var inGroups: []
     
     signal logged(var ticket)
     signal canceled()
@@ -39,6 +39,7 @@ QQC2.StackView {
             if (code==N4DAgent.Status.CallSuccessful) {
                 root.push(secondPage);
                 root.logged(value);
+                
             }
             else {
                 passwordField.text="";
@@ -167,7 +168,7 @@ QQC2.StackView {
                     text:i18nd("n4d-qt-agent","Login")
                     
                     onClicked: {
-                        n4dAgent.requestTicket(addressField.text,userField.text,passwordField.text);
+                        n4dAgent.requestTicket(addressField.text,userField.text,passwordField.text,root.inGroups);
                         passwordField.text="";
                         firstPage.enabled=false;
                         errorLabel.visible=false;
