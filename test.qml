@@ -15,7 +15,7 @@ Rectangle
         //user: "netadmin"
         showCancel: false
         trustLocal: true
-        inGroups: ["sudo","adm"]
+        inGroups: ["patata"]
         
         anchors.centerIn: parent
         

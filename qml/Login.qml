@@ -45,6 +45,7 @@ QQC2.StackView {
                 
                 if (trustLocal && code==N4DAgent.Status.InvalidUserGroup) {
                     trustLocal=false;
+                    userField.text="";
                 }
                 else {
                     passwordField.text="";
