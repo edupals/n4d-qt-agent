@@ -42,18 +42,24 @@ QQC2.StackView {
                 
             }
             else {
-                passwordField.text="";
-                errorLabel.text="Error "+code;
-                errorLabel.visible=true;
-            
-                root.failed(code,value);
+                
+                if (trustLocal && code==N4DAgent.Status.InvalidUserGroup) {
+                    trustLocal=false;
+                }
+                else {
+                    passwordField.text="";
+                    errorLabel.text="Error "+code;
+                    errorLabel.visible=true;
+                
+                    root.failed(code,value);
+                }
             }
         }
     }
     
     Component.onCompleted: {
         if (trustLocal) {
-            n4dAgent.requestLocalTicket(n4dAgent.userName);
+            n4dAgent.requestLocalTicket(n4dAgent.userName,root.inGroups);
         }
     }
     

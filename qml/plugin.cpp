@@ -46,23 +46,18 @@ using namespace edupals;
 static bool inGroups(n4d::Client& client,QVariantList groups)
 {
     
-    try {
-        vector<string> userGroups = client.get_groups();
+    vector<string> userGroups = client.get_groups();
+    
+    for (int n=0;n<groups.size();n++) {
+        QVariant tmp = groups.at(n);
+        string name = tmp.value<QString>().toStdString();
         
-        for (int n=0;n<groups.size();n++) {
-            QVariant tmp = groups.at(n);
-            string name = tmp.value<QString>().toStdString();
-            
-            for (string ug : userGroups) {
-                if (ug==name) {
-                    return true;
-                }
+        for (string ug : userGroups) {
+            if (ug==name) {
+                return true;
             }
-            
         }
-    }
-    catch (std::exception& e) {
-        return false;
+        
     }
     
     return false;
@@ -127,18 +122,28 @@ void Proxy::requestTicket(QString address,QString user,QString password, QVarian
         n4d::Client client(address.toStdString(),user.toStdString(),password.toStdString());
         
         try {
-            n4d::auth::Credential credential = client.get_ticket();
+            n4d::Ticket utk = client.get_ticket();
             
-            if (credential.key) {
-                QLatin1String sep(" ");
-                QString n4dticket = QLatin1String("N4DTKV2")+sep+address+sep+user+sep+QString::fromStdString(credential.key.value);
+            if (utk.valid()) {
+                
+                if (groups.size()>0) {
+                    n4d::Client gclient(utk);
+                    
+                    if (!inGroups(gclient,groups)) {
+                        emit ticket(Status::InvalidUserGroup,QLatin1String(""));
+                        qDebug()<<"Invalid group";
+                        return;
+                    }
+                }
+                
+                QString n4dticket = QString::fromStdString(utk.to_string());
                 
                 qDebug()<<n4dticket;
                 
                 emit ticket(Status::CallSuccessful,n4dticket);
             }
             else {
-                qDebug()<<"Invalid key:"<<QString::fromStdString(credential.key.value);
+                qDebug()<<"Invalid key:"<<QString::fromStdString(utk.get_credential().key.value);
                 emit ticket(Status::InvalidKey,QLatin1String(""));
             }
         }
@@ -159,7 +164,7 @@ void Proxy::requestTicket(QString address,QString user,QString password, QVarian
     worker->start();
 }
 
-void Proxy::requestLocalTicket(QString user)
+void Proxy::requestLocalTicket(QString user, QVariantList groups)
 {
     qDebug()<<"requesting local ticket...";
     
@@ -168,8 +173,21 @@ void Proxy::requestLocalTicket(QString user)
     if (userKey.valid()) {
         qDebug()<<"found a local ticket";
         
-        QLatin1String sep(" ");
-        QString n4dticket = QLatin1String("N4DTKV2 https://127.0.0.1:9779")+sep+user+sep+QString::fromStdString(userKey.value);
+        n4d::Ticket utk("https://127.0.0.1:9779",n4d::auth::Credential(user.toStdString(),userKey));
+        
+        //checking groups
+        if (groups.size()>0) {
+            
+            n4d::Client gclient(utk);
+            
+            if (!inGroups(gclient,groups)) {
+                emit ticket(Status::InvalidUserGroup,QLatin1String(""));
+                qDebug()<<"Invalid group";
+                return;
+            }
+        }
+        
+        QString n4dticket = QString::fromStdString(utk.to_string());
         emit ticket(Status::CallSuccessful,n4dticket);
     }
     else {
@@ -180,18 +198,30 @@ void Proxy::requestLocalTicket(QString user)
             n4d::Client client("https://127.0.0.1:9779",user.toStdString(),"");
             
             try {
-                n4d::auth::Credential credential = client.create_ticket();
+                n4d::Ticket utk = client.create_ticket();
                 
-                if (credential.key) {
+                if (utk.valid()) {
                     
-                    QLatin1String sep(" ");
-                    QString n4dticket = QLatin1String("N4DTKV2 https://127.0.0.1:9779")+sep+user+sep+QString::fromStdString(credential.key.value);
+                    //checking groups
+                    if (groups.size()>0) {
+                        
+                        n4d::Client gclient(utk);
+                        
+                        if (!inGroups(gclient,groups)) {
+                            emit ticket(Status::InvalidUserGroup,QLatin1String(""));
+                            qDebug()<<"Invalid group";
+                            return;
+                        }
+                    }
+                    
+                    QString n4dticket = QString::fromStdString(utk.to_string());
                     
                     qDebug()<<n4dticket;
+                    
                     emit ticket(Status::CallSuccessful,n4dticket);
                 }
                 else {
-                    qDebug()<<"Invalid key:"<<QString::fromStdString(credential.key.value);
+                    qDebug()<<"Invalid key:"<<QString::fromStdString(utk.get_credential().key.value);
                     emit ticket(Status::InvalidKey,QLatin1String(""));
                 }
             }

@@ -39,7 +39,8 @@ class Status: public QObject
         AuthenticationFailed = -10,
         InvalidServerResponse = -1001,
         UnknownError = -2000,
-        InvalidKey = -2001
+        InvalidKey = -2001,
+        InvalidUserGroup = -2002
     };
         
     Q_ENUM(StatusCode)
@@ -64,7 +65,7 @@ class Proxy: public QObject
     }
     
     Q_INVOKABLE void requestTicket(QString address,QString user,QString password, QVariantList groups);
-    Q_INVOKABLE void requestLocalTicket(QString user);
+    Q_INVOKABLE void requestLocalTicket(QString user, QVariantList groups);
     
     Q_SIGNALS:
     
