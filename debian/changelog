@@ -1,3 +1,9 @@
+n4d-qt-agent (2.4.0.0) focal; urgency=medium
+
+  * Master tag: ad23d3ae2700b7aff8d2007280af743325f25cf6
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Mon, 25 Jan 2021 16:53:49 +0100
+
 n4d-qt-agent (2.0.0.0) bionic; urgency=medium
 
   * Master tag: 64d45fb04de1829850f25ecdd3b9f1b18f6e7a2b
