@@ -20,40 +20,48 @@
 #ifndef N4D_AGENT_LOGINUI
 #define N4D_AGENT_LOGINUI
 
-#include <QMainWindow>
-#include <QLineEdit>
-#include <QLabel>
+#include <QQuickView>
 
 namespace edupals {
     namespace n4d
     {
         namespace agent
         {
-            struct Connection
+            class Bridge: public QObject
             {
-                QString address;
-                int port;
+                Q_OBJECT
+                
+                Q_PROPERTY(QString defaultAddress MEMBER m_defaultAddress CONSTANT)
+                Q_PROPERTY(bool showAddress MEMBER m_showAddress CONSTANT)
+                Q_PROPERTY(QString message MEMBER m_message CONSTANT)
+                
+                public:
+                
+                Bridge(QString defaultAddress,bool showAddress,QString message) :
+                    m_defaultAddress(defaultAddress), m_showAddress(showAddress), m_message(message) 
+                {
+                    
+                }
+                
+                QString m_defaultAddress;
+                bool m_showAddress;
+                QString m_message;
+                
+                Q_SIGNALS:
+                
+                void logged(QString ticket);
+                void canceled();
+                
             };
-            
-            class LoginWindow: public QMainWindow
+
+            class LoginWindow: public QQuickView
             {
                 Q_OBJECT
                 
                 public:
-                    
-                QString user;
-                Connection connection;
                 
-                QLineEdit* editUser;
-                QLineEdit* editPass;
-                QLineEdit* editServer;
-                QLabel* lblError;
+                LoginWindow(QString defaultAddress,bool showAddress,QString message);
                 
-                LoginWindow(bool showServer,QString defaultAddress,QString message);
-                
-                protected:
-                
-                void login();
             };
         }
     }

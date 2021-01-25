@@ -31,16 +31,16 @@ int main(int argc,char* argv[])
     
     QApplication app(argc,argv);
     QApplication::setApplicationName("n4d-qt-agent");
-    QApplication::setApplicationVersion("1.0");
+    QApplication::setApplicationVersion("2.0");
     
     QCommandLineParser parser;
     parser.setApplicationDescription("N4D Qt login agent");
     parser.addHelpOption();
     parser.addVersionOption();
     
-    QStringList list = {"s","show-server"};
-    QCommandLineOption optShowServer(list,"let user select a server");
-    parser.addOption(optShowServer);
+    QStringList list = {"s","show-address"};
+    QCommandLineOption optShowAddress(list,"let user select a server address");
+    parser.addOption(optShowAddress);
     
     list = QStringList({"m","message"});
     QCommandLineOption optMessage(list,"add a custom message","message","");
@@ -60,7 +60,8 @@ int main(int argc,char* argv[])
     
     QString address = parser.value(optAddress);
     
-    LoginWindow win(parser.isSet(optShowServer), address, message);
+    LoginWindow win(address,parser.isSet(optShowAddress), message);
+    win.show();
     
-    return app.exec();;
+    return app.exec();
 }

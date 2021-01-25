@@ -1,0 +1,3 @@
+module Edupals.N4D.Agent
+plugin edupalsn4dagentplugin
+Login 1.0 Login.qml
