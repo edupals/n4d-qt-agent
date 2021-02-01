@@ -1,3 +1,10 @@
+n4d-qt-agent (2.4.2.0) focal; urgency=medium
+
+  * Master tag: a38af7dca50cb6c5e4ad1b3b4e26f25ba5d3bcb1 
+  * Added some error text messages
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Mon, 01 Feb 2021 17:21:05 +0100
+
 n4d-qt-agent (2.4.1.0) focal; urgency=medium
 
   * Master tag: 522b834e8d789745d7c07777704f330e975a3605
