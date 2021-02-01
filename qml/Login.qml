@@ -30,6 +30,29 @@ QQC2.StackView {
         id: n4dAgent
     }
     
+    function getErrorMessage(code)
+    {
+        switch (code) {
+            case N4DAgent.Status.AuthenticationFailed:
+                return i18nd("n4d-qt-agent","Authentication failed");
+                
+            case N4DAgent.Status.InvalidServerResponse:
+                return i18nd("n4d-qt-agent","Invalid server response");
+                
+            case N4DAgent.Status.UnknownError:
+                return i18nd("n4d-qt-agent","Unknown error");
+            
+            case N4DAgent.Status.InvalidKey:
+                return i18nd("n4d-qt-agent","Error reading ticket");
+            
+            case N4DAgent.Status.InvalidUserGroup:
+                return i18nd("n4d-qt-agent","User is not in a valid group");
+            
+            default:
+                return i18nd("n4d-qt-agent","Error:")+code;
+        }
+    }
+    
     Connections {
         target: n4dAgent
         
@@ -49,7 +72,7 @@ QQC2.StackView {
                 }
                 else {
                     passwordField.text="";
-                    errorLabel.text="Error "+code;
+                    errorLabel.text=getErrorMessage(code);
                     errorLabel.visible=true;
                 
                     root.failed(code,value);
