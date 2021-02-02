@@ -109,26 +109,9 @@ QQC2.StackView {
             }
             
             Row {
-                id: rowAddress
-                anchors.right: rowUser.right
-                topPadding: units.smallSpacing
-                spacing: units.smallSpacing
-                visible: false
-                
-                QQC2.Label {
-                    text:i18nd("n4d-qt-agent","Address")
-                    anchors.verticalCenter: addressField.verticalCenter
-                }
-                
-                QQC2.TextField {
-                    id: addressField
-                    text: "localhost"
-                }
-            }
-            
-            Row {
                 id: rowUser
                 spacing: units.smallSpacing
+                topPadding: units.smallSpacing
                 anchors.horizontalCenter:parent.horizontalCenter
                 
                 QQC2.Label {
@@ -159,6 +142,23 @@ QQC2.StackView {
                     onAccepted: {
                         btnLogin.clicked();
                     }
+                }
+            }
+            
+            Row {
+                id: rowAddress
+                anchors.right: rowUser.right
+                spacing: units.smallSpacing
+                visible: false
+                
+                QQC2.Label {
+                    text:i18nd("n4d-qt-agent","Server")
+                    anchors.verticalCenter: addressField.verticalCenter
+                }
+                
+                QQC2.TextField {
+                    id: addressField
+                    text: "localhost"
                 }
             }
             
