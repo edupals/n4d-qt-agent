@@ -1,0 +1,70 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-09 10:51+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:37
+msgid "Authentication failed"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:40
+msgid "Invalid server response"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:43
+msgid "Unknown error"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:46
+msgid "Error reading ticket"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:49
+msgid "User is not in a valid group"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:52
+msgid "Error:"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:118
+msgid "User"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:135
+msgid "Password"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:155
+msgid "Server"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:188
+msgid "Cancel"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:198
+msgid "Login"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:225
+msgid "Logged as:"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:237
+msgid "Back"
+msgstr ""
