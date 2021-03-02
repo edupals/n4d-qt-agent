@@ -8,62 +8,75 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-09 10:51+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-03-02 14:04+0000\n"
+"Last-Translator: Raul Rodrigo <raurodse@gmail.com>\n"
+"Language-Team: Valencian <http://weblate.lliurex.net/projects/n4d-qt-agent/"
+"n4d-qt-agent/ca@valencia/>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.1\n"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:37
+#, fuzzy
 msgid "Authentication failed"
-msgstr ""
+msgstr "Ha fallat l'autenticació."
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:40
 msgid "Invalid server response"
 msgstr ""
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:43
+#, fuzzy
 msgid "Unknown error"
-msgstr ""
+msgstr "S'ha produït un error desconegut"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:46
+#, fuzzy
 msgid "Error reading ticket"
-msgstr ""
+msgstr "S'ha produït un error en llegir el fitxer."
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:49
 msgid "User is not in a valid group"
 msgstr ""
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:52
+#, fuzzy
 msgid "Error:"
-msgstr ""
+msgstr "Error:"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:118
+#, fuzzy
 msgid "User"
-msgstr ""
+msgstr "Usuari:"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:135
+#, fuzzy
 msgid "Password"
-msgstr ""
+msgstr "Contrasenya"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:155
+#, fuzzy
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:188
+#, fuzzy
 msgid "Cancel"
-msgstr ""
+msgstr "Cancela"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:198
+#, fuzzy
 msgid "Login"
-msgstr ""
+msgstr "Inici de sessió"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:225
 msgid "Logged as:"
 msgstr ""
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:237
+#, fuzzy
 msgid "Back"
-msgstr ""
+msgstr "Arrere"
