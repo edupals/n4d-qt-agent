@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Enrique Medina Gremaldos <quiqueiii@gmail.com>
 Build-Depends: debhelper (>=9), cmake, make, g++, pkg-config, libedupals-base2 (>=2.1), libedupals-base-dev (>=2.1), libedupals-n4d2 (>=2.4), libedupals-n4d-dev (>=2.4), extra-cmake-modules, qtbase5-dev, qtdeclarative5-dev
-Standards-Version: 3.9.7
+Standards-Version: 4.5.0
 Homepage: https://github.com/edupals/n4d-qt-agent
 
 Package: n4d-qt-agent
