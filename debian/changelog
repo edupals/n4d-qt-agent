@@ -1,3 +1,9 @@
+n4d-qt-agent (2.4.3.1) focal; urgency=medium
+
+  * Fixed install paths
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Tue, 16 Mar 2021 12:04:32 +0100
+
 n4d-qt-agent (2.4.3.0) focal; urgency=medium
 
   * Master tag: 4a2fc0b5ed805777371bb9b18761dfab6bc365f3
