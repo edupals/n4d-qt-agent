@@ -1,3 +1,10 @@
+n4d-qt-agent (2.4.3.0) focal; urgency=medium
+
+  * Master tag: 4a2fc0b5ed805777371bb9b18761dfab6bc365f3
+  * Added translation support
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Tue, 16 Mar 2021 10:25:27 +0100
+
 n4d-qt-agent (2.4.2.0) focal; urgency=medium
 
   * Master tag: a38af7dca50cb6c5e4ad1b3b4e26f25ba5d3bcb1 
