@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-09 10:51+0100\n"
+"PO-Revision-Date: 2021-03-03 14:41+0000\n"
+"Last-Translator: Angels <gimenez_angcam@gva.es>\n"
+"Language-Team: Valencian <http://weblate.lliurex.net/projects/n4d-qt-agent/"
+"n4d-qt-agent/ca@valencia/>\n"
+"Language: ca@valencia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.1\n"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:37
+msgid "Authentication failed"
+msgstr "Ha fallat l'autenticació."
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:40
+msgid "Invalid server response"
+msgstr "La resposta del servidor no és vàlida."
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:43
+msgid "Unknown error"
+msgstr "S'ha produït un error desconegut."
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:46
+msgid "Error reading ticket"
+msgstr "S'ha produït un error en llegir el tiquet."
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:49
+msgid "User is not in a valid group"
+msgstr "L'usuari no està en un grup vàlid."
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:52
+msgid "Error:"
+msgstr "Error:"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:118
+msgid "User"
+msgstr "Usuari"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:135
+msgid "Password"
+msgstr "Contrasenya"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:155
+msgid "Server"
+msgstr "Servidor"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:188
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:198
+msgid "Login"
+msgstr "Inici de sessió"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:225
+msgid "Logged as:"
+msgstr "Accés com a:"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:237
+msgid "Back"
+msgstr "Arrere"
