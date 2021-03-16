@@ -1,3 +1,9 @@
+n4d-qt-agent (2.4.3.2) focal; urgency=medium
+
+  * Fixed gettext charset
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Tue, 16 Mar 2021 13:40:02 +0100
+
 n4d-qt-agent (2.4.3.1) focal; urgency=medium
 
   * Fixed install paths
