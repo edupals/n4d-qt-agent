@@ -11,6 +11,9 @@ find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
 find_package(Threads REQUIRED)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SYSTEMD REQUIRED libsystemd)
+
 include(KDEInstallDirs)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
@@ -26,6 +29,7 @@ target_link_libraries (edupalsn4dagentplugin
     Edupals::Base
     Edupals::N4D
     Threads::Threads
+    ${SYSTEMD_LIBRARIES}
 )
 
 install (TARGETS edupalsn4dagentplugin DESTINATION ${KDE_INSTALL_QMLDIR}/Edupals/N4D/Agent)
