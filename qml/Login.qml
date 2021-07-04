@@ -122,6 +122,7 @@ QQC2.StackView {
                 QQC2.TextField {
                     id: userField
                     text: n4dAgent.userName
+                    focus: true
                 }
             }
             
