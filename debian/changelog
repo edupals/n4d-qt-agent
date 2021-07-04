@@ -1,3 +1,10 @@
+n4d-qt-agent (2.4.4.0) focal; urgency=medium
+
+  * Master tag: d4864499a760c3ef27501ecc24c49b3a5f781d45
+  * Logs have been moved to system instead of standard error
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Sun, 04 Jul 2021 23:45:10 +0200
+
 n4d-qt-agent (2.4.3.2) focal; urgency=medium
 
   * Fixed gettext charset
