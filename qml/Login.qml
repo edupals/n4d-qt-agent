@@ -1,4 +1,3 @@
-
 import Edupals.N4D.Agent 1.0 as N4DAgent
 
 import QtQuick 2.6
@@ -10,7 +9,7 @@ import org.kde.kirigami 2.5 as Kirigami
 QQC2.StackView {
     id: root
     width: 400
-    height: 240
+    height: 320
     
     initialItem: firstPage
     
@@ -29,7 +28,7 @@ QQC2.StackView {
     N4DAgent.Proxy {
         id: n4dAgent
     }
-    
+
     function getErrorMessage(code)
     {
         switch (code) {
@@ -60,7 +59,7 @@ QQC2.StackView {
             //btnLogin.enabled=true;
             firstPage.enabled=true;
             if (code==N4DAgent.Status.CallSuccessful) {
-                root.push(secondPage);
+                /*root.push(secondPage);*/
                 root.logged(value);
                 
             }
@@ -95,17 +94,39 @@ QQC2.StackView {
     QQC2.Pane {
         id: firstPage
         width: 400
-        height: 240
+        height: 320
         
         Column {
             anchors.fill:parent
             
-            spacing: units.smallSpacing
+            
+
+            Row {
+                Image {
+                  source:"/usr/share/icons/breeze/preferences/32/preferences-system-user-sudo.svg"
+                }
+         
+                QQC2.Label {
+                    
+                    id: labelCustomMessage
+                    text:i18nd("n4d-qt-agent","This action needs authentication against<br>the N4d Server")
+                    leftPadding:6
+                    font.pixelSize:16
+                    font.bold:true
+                    font.family:"roboto"
+                }
+            }
+
             
             QQC2.Label {
                 
-                id: labelCustomMessage
-                text: "Put N4D credentials"
+                id: labelInfoMessage
+                width:400
+                text:i18nd("n4d-qt-agent","An application is trying to do an action<br>that requires N4d authentication")
+                leftPadding:36
+                horizontalAlignment:text.AlignHCenter
+                font.pixelSize:12
+                font.family:"roboto"
             }
             
             Row {
@@ -183,6 +204,7 @@ QQC2.StackView {
                 topPadding: units.largeSpacing
                 anchors.right: parent.right
                 spacing: units.smallSpacing
+                height:124
                 
                 QQC2.Button {
                     id: btnCancel
@@ -213,7 +235,7 @@ QQC2.StackView {
     QQC2.Pane {
         id: secondPage
         width: 400
-        height: 240
+        height: 320
         visible: false
         
         Column {
