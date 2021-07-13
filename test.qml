@@ -14,8 +14,8 @@ Rectangle
         //address: "https://localhost:9779"
         //user: "netadmin"
         showCancel: false
-        trustLocal: true
-        inGroups: ["patata"]
+        trustLocal: false
+        //inGroups: ["patata"]
         
         anchors.centerIn: parent
         

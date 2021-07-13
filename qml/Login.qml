@@ -118,6 +118,7 @@ QQC2.StackView {
         id: firstPage
         width: 400
         height: 320
+        padding: Kirigami.Units.smallSpacing * 2
         
         ColumnLayout {
             anchors.fill:parent
@@ -125,22 +126,20 @@ QQC2.StackView {
             RowLayout {
                 Layout.alignment: Qt.AlignCenter
                 Layout.fillWidth:true
-          
-                QQC2.Button {
+
+                Kirigami.Icon {
                     Layout.alignment: Qt.AlignLeft
-                    flat:true
-                    hoverEnabled:false
-                    //enabled:false
-                    icon.width:64
-                    icon.height:64
-                    icon.name:"preferences-system-user-sudo"
+                    Layout.minimumWidth: Kirigami.Units.iconSizes.large
+                    Layout.minimumHeight: width
+                    
+                    source: "preferences-system-user-sudo"
                 }
-         
+                
                 QQC2.Label {
                     id: labelCustomMessage
                     Layout.alignment: Qt.AlignCenter
                     
-                    text:i18nd("n4d-qt-agent","This action needs authentication against<br>the N4d Server")
+                    text:i18nd("n4d-qt-agent","This action needs authentication against<br>the N4D Server</br>")
                     //leftPadding:6
                     font.pixelSize:16
                     //font.bold:true
@@ -152,11 +151,11 @@ QQC2.StackView {
             QQC2.Label {
                 
                 id: labelInfoMessage
-                Layout.alignment: Qt.AlignCenter
+                Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth:true
                 
                 //width:400
-                text:i18nd("n4d-qt-agent","An application is trying to do an action<br>that requires N4d authentication")
+                text:i18nd("n4d-qt-agent","An application is trying to do an action that requires N4D authentication")
                 //leftPadding:36
                 horizontalAlignment:text.AlignHCenter
                 font.pixelSize:12
