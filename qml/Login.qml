@@ -1,7 +1,30 @@
+/*
+ * Copyright (C) 2021 Lliurex project
+ *
+ * Author:
+ *  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+ *
+ * Source:
+ *  https://github.com/edupals/n4d-qt-agent
+ *
+ * This file is a part of n4d-qt-agent
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
+
 import Edupals.N4D.Agent 1.0 as N4DAgent
 
 import QtQuick 2.6
-import QtQuick.Layouts 1.1 as Layouts
+import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.6 as QQC2
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kirigami 2.5 as Kirigami
@@ -59,7 +82,7 @@ QQC2.StackView {
             //btnLogin.enabled=true;
             firstPage.enabled=true;
             if (code==N4DAgent.Status.CallSuccessful) {
-                /*root.push(secondPage);*/
+                root.push(secondPage);
                 root.logged(value);
                 
             }
@@ -96,24 +119,32 @@ QQC2.StackView {
         width: 400
         height: 320
         
-        Column {
+        ColumnLayout {
             anchors.fill:parent
-            
-            
 
-            Row {
-                Image {
-                  source:"/usr/share/icons/breeze/preferences/32/preferences-system-user-sudo.svg"
+            RowLayout {
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
+          
+                QQC2.Button {
+                    Layout.alignment: Qt.AlignLeft
+                    flat:true
+                    hoverEnabled:false
+                    //enabled:false
+                    icon.width:64
+                    icon.height:64
+                    icon.name:"preferences-system-user-sudo"
                 }
          
                 QQC2.Label {
-                    
                     id: labelCustomMessage
+                    Layout.alignment: Qt.AlignCenter
+                    
                     text:i18nd("n4d-qt-agent","This action needs authentication against<br>the N4d Server")
-                    leftPadding:6
+                    //leftPadding:6
                     font.pixelSize:16
-                    font.bold:true
-                    font.family:"roboto"
+                    //font.bold:true
+                    //font.family:"roboto"
                 }
             }
 
@@ -121,23 +152,28 @@ QQC2.StackView {
             QQC2.Label {
                 
                 id: labelInfoMessage
-                width:400
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
+                
+                //width:400
                 text:i18nd("n4d-qt-agent","An application is trying to do an action<br>that requires N4d authentication")
-                leftPadding:36
+                //leftPadding:36
                 horizontalAlignment:text.AlignHCenter
                 font.pixelSize:12
-                font.family:"roboto"
+                //font.family:"roboto"
             }
             
-            Row {
+            RowLayout {
                 id: rowUser
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
                 spacing: units.smallSpacing
-                topPadding: units.smallSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
+                //topPadding: units.smallSpacing
+                //anchors.horizontalCenter:parent.horizontalCenter
                 
                 QQC2.Label {
                     text:i18nd("n4d-qt-agent","User")
-                    anchors.verticalCenter: userField.verticalCenter
+                    //anchors.verticalCenter: userField.verticalCenter
                 }
                 
                 QQC2.TextField {
@@ -147,13 +183,15 @@ QQC2.StackView {
                 }
             }
             
-            Row {
+            RowLayout {
                 id:rowPassword
                 spacing: units.smallSpacing
-                anchors.right: rowAddress.right
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
+                //anchors.right: rowAddress.right
                 
                 QQC2.Label {
-                    anchors.verticalCenter: passwordField.verticalCenter
+                    //anchors.verticalCenter: passwordField.verticalCenter
                     text:i18nd("n4d-qt-agent","Password")
                 }
                 
@@ -167,15 +205,17 @@ QQC2.StackView {
                 }
             }
             
-            Row {
+            RowLayout {
                 id: rowAddress
-                anchors.right: rowUser.right
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
+                //anchors.right: rowUser.right
                 spacing: units.smallSpacing
                 visible: false
                 
                 QQC2.Label {
                     text:i18nd("n4d-qt-agent","Server")
-                    anchors.verticalCenter: addressField.verticalCenter
+                    //anchors.verticalCenter: addressField.verticalCenter
                 }
                 
                 QQC2.TextField {
@@ -184,11 +224,13 @@ QQC2.StackView {
                 }
             }
             
-            Row {
+            RowLayout {
                 id: rowMessage
                 height:32
-                width: parent.width
-                anchors.horizontalCenter:parent.horizontalCenter
+                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth:true
+                //width: parent.width
+                //anchors.horizontalCenter:parent.horizontalCenter
                 
                 Kirigami.InlineMessage {
                     id: errorLabel
@@ -199,10 +241,12 @@ QQC2.StackView {
                 }
             }
             
-            Row {
+            RowLayout {
                 id: rowButtons
-                topPadding: units.largeSpacing
-                anchors.right: parent.right
+                Layout.alignment: Qt.AlignRight
+                Layout.fillWidth:true
+                //topPadding: units.largeSpacing
+                //anchors.right: parent.right
                 spacing: units.smallSpacing
                 height:124
                 
