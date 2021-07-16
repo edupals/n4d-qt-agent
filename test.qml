@@ -10,12 +10,12 @@ Rectangle
     {
         id: loginWidget
         
-        showAddress: true
+        //showAddress: true
         //address: "https://localhost:9779"
         //user: "netadmin"
-        showCancel: false
+        showCancel: true
         trustLocal: true
-        inGroups: ["patata"]
+        //inGroups: ["patata"]
         
         anchors.centerIn: parent
         

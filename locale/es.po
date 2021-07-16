@@ -68,3 +68,12 @@ msgstr "Acceder como:"
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:237
 msgid "Back"
 msgstr "Volver"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:145
+msgid "This action needs authentication against the N4D Server"
+msgstr "Esta acción necesita autenticación con el Servidor N4D"
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:161
+msgid ""
+"An application is trying to do an action that requires N4D authentication"
+msgstr "Una aplicación está intentando realizar una acción que requiere autenticación de N4D"
