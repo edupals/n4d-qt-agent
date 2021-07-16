@@ -14,7 +14,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:37
@@ -67,4 +67,13 @@ msgstr ""
 
 #: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:237
 msgid "Back"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:145
+msgid "This action needs authentication against the N4D Server"
+msgstr ""
+
+#: /home/quique/workspace/n4d-qt-agent/qml/Login.qml:161
+msgid ""
+"An application is trying to do an action that requires N4D authentication"
 msgstr ""

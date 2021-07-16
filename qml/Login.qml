@@ -287,24 +287,31 @@ QQC2.StackView {
         height: 320
         visible: false
         
-        Column {
+        ColumnLayout {
             anchors.fill:parent
             spacing: units.largeSpacing
             
             QQC2.Label {
-                topPadding: units.largeSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
+                //topPadding: units.largeSpacing
+                //anchors.horizontalCenter:parent.horizontalCenter
+                Layout.alignment: Qt.AlignCenter
+                //Layout.fillWidth:true
+                
                 text: i18nd("n4d-qt-agent","Logged as:")
             }
             QQC2.Label {
-                
-                anchors.horizontalCenter:parent.horizontalCenter
+                Layout.alignment: Qt.AlignCenter
+                //Layout.fillWidth:true
+                //anchors.horizontalCenter:parent.horizontalCenter
                 text: userField.text
             }
             
             QQC2.Button {
-                topPadding: units.largeSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
+                //topPadding: units.largeSpacing
+                //anchors.horizontalCenter:parent.horizontalCenter
+                Layout.alignment: Qt.AlignCenter
+                //Layout.fillWidth:true
+                width: units.gridSpacing * 6
                 
                 text: i18nd("n4d-qt-agent","Back")
                 
