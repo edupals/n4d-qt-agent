@@ -1,3 +1,9 @@
+n4d-qt-agent (2.5.0.0) focal; urgency=medium
+
+  * Merged and adapted patch from juanma. This patch adds a better description text to user.
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Fri, 16 Jul 2021 11:37:48 +0200
+
 n4d-qt-agent (2.4.4.0) focal; urgency=medium
 
   * Master tag: d4864499a760c3ef27501ecc24c49b3a5f781d45
