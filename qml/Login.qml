@@ -32,7 +32,7 @@ import org.kde.kirigami 2.5 as Kirigami
 QQC2.StackView {
     id: root
     width: 400
-    height: 320 + (showAddress == true ? 40:0)
+    height: 400
     
     initialItem: firstPage
     
@@ -79,12 +79,10 @@ QQC2.StackView {
         target: n4dAgent
         
         function onTicket(code,value) {
-            //btnLogin.enabled=true;
             firstPage.enabled=true;
             if (code==N4DAgent.Status.CallSuccessful) {
                 root.push(secondPage);
                 root.logged(value);
-                
             }
             else {
                 
@@ -143,10 +141,7 @@ QQC2.StackView {
                     wrapMode:Text.WordWrap
                     
                     text:i18nd("n4d-qt-agent","This action needs authentication against the N4D Server")
-                    //leftPadding:6
                     font.pixelSize:16
-                    //font.bold:true
-                    //font.family:"roboto"
                 }
             }
             
@@ -157,12 +152,9 @@ QQC2.StackView {
                 Layout.fillWidth:true
                 wrapMode:Text.WordWrap
                 
-                //width:400
                 text:i18nd("n4d-qt-agent","An application is trying to do an action that requires N4D authentication")
-                //leftPadding:36
                 horizontalAlignment:text.AlignCenter
                 font.pixelSize:12
-                //font.family:"roboto"
             }
                 
             GridLayout {
@@ -175,7 +167,6 @@ QQC2.StackView {
                 
                 QQC2.Label {
                     text:i18nd("n4d-qt-agent","User")
-                    //anchors.verticalCenter: userField.verticalCenter
                     Layout.row:0
                     Layout.column:0
                     Layout.alignment: Qt.AlignRight
@@ -191,7 +182,6 @@ QQC2.StackView {
                 }
                 
                 QQC2.Label {
-                    //anchors.verticalCenter: passwordField.verticalCenter
                     text:i18nd("n4d-qt-agent","Password")
                     Layout.row:1
                     Layout.column:0
@@ -211,7 +201,6 @@ QQC2.StackView {
                 
                 QQC2.Label {
                     text:i18nd("n4d-qt-agent","Server")
-                    //anchors.verticalCenter: addressField.verticalCenter
                     Layout.row:2
                     Layout.column:0
                     Layout.alignment: Qt.AlignRight
@@ -230,30 +219,28 @@ QQC2.StackView {
             
             RowLayout {
                 id: rowMessage
-                //height:32
                 Layout.alignment: Qt.AlignCenter
                 Layout.fillWidth:true
-                Layout.minimumHeight:32
-                //width: parent.width
-                //anchors.horizontalCenter:parent.horizontalCenter
+                //Layout.minimumHeight:32
                 
                 Kirigami.InlineMessage {
                     id: errorLabel
-                    //anchors.fill:parent
                     type: Kirigami.MessageType.Error
                     width:parent.width
                     
                 }
             }
             
+            Item {
+                Layout.fillWidth:true
+                Layout.fillHeight:true
+            }
+            
             RowLayout {
                 id: rowButtons
-                Layout.alignment: Qt.AlignRight
+                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                 Layout.fillWidth:true
-                //topPadding: units.largeSpacing
-                //anchors.right: parent.right
                 spacing: units.smallSpacing
-                //height:124
                 
                 QQC2.Button {
                     id: btnCancel
@@ -289,33 +276,31 @@ QQC2.StackView {
         
         ColumnLayout {
             anchors.fill:parent
-            spacing: units.largeSpacing
+            spacing: units.smallSpacing
+            
+            Item {
+                height: 16
+            }
             
             QQC2.Label {
-                //topPadding: units.largeSpacing
-                //anchors.horizontalCenter:parent.horizontalCenter
                 Layout.alignment: Qt.AlignCenter
-                //Layout.fillWidth:true
                 
                 text: i18nd("n4d-qt-agent","Logged as:")
             }
+            
             QQC2.Label {
                 Layout.alignment: Qt.AlignCenter
-                //Layout.fillWidth:true
-                //anchors.horizontalCenter:parent.horizontalCenter
                 text: userField.text
             }
             
             QQC2.Button {
-                //topPadding: units.largeSpacing
-                //anchors.horizontalCenter:parent.horizontalCenter
                 Layout.alignment: Qt.AlignCenter
-                //Layout.fillWidth:true
                 width: units.gridSpacing * 6
                 
                 text: i18nd("n4d-qt-agent","Back")
                 
                 onClicked: {
+                    trustLocal = false;
                     root.pop();
                 }
             }

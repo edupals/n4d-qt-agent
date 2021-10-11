@@ -22,7 +22,8 @@
 
 #include <QQuickView>
 
-namespace edupals {
+namespace edupals 
+{
     namespace n4d
     {
         namespace agent

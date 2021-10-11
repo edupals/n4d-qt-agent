@@ -4,9 +4,7 @@ import Edupals.N4D.Agent 1.0 as N4DAgent
 
 QQC2.Pane
 {
-    width: 450
-    height: 250
-    anchors.centerIn: parent
+    anchors.fill:parent
     
     N4DAgent.Login
     {

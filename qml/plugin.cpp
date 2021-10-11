@@ -117,7 +117,6 @@ static int completeURL(QString& address)
 void Proxy::requestTicket(QString address,QString user,QString password, QVariantList groups)
 {
     completeURL(address);
-    //qDebug()<<"requesting remote ticket to "<<address;
     sd_journal_print(LOG_INFO,"requesting a remote ticket to %s",address.toLocal8Bit().constData());
     
     QThread* worker = QThread::create([=]() {
@@ -141,28 +140,22 @@ void Proxy::requestTicket(QString address,QString user,QString password, QVarian
                 
                 QString n4dticket = QString::fromStdString(utk.to_string());
                 
-                qDebug()<<n4dticket;
-                
                 emit ticket(Status::CallSuccessful,n4dticket);
             }
             else {
-                //qDebug()<<"Invalid key:"<<QString::fromStdString(utk.get_credential().key.value);
                 sd_journal_print(LOG_ERR,"invalid key");
                 emit ticket(Status::InvalidKey,QLatin1String(""));
             }
         }
         catch(n4d::exception::AuthenticationFailed& e) {
-            //qDebug()<<"Authentication Failed";
             sd_journal_print(LOG_ERR,"authentication failed");
             emit ticket(Status::AuthenticationFailed,QLatin1String(""));
         }
         catch(n4d::exception::InvalidServerResponse& e) {
-            //qDebug()<<e.what();
             sd_journal_print(LOG_ERR,"invalid server response:%s",e.what());
             emit ticket(Status::InvalidServerResponse,QLatin1String(""));
         }
         catch (std::exception& e) {
-            //qDebug()<<e.what();
             sd_journal_print(LOG_ERR,e.what());
             emit ticket(Status::UnknownError,QLatin1String(""));
         }
@@ -173,13 +166,11 @@ void Proxy::requestTicket(QString address,QString user,QString password, QVarian
 
 void Proxy::requestLocalTicket(QString user, QVariantList groups)
 {
-    //qDebug()<<"requesting local ticket...";
     sd_journal_print(LOG_INFO,"requesting local ticket...");
     
     n4d::auth::Key userKey = n4d::auth::Key::user_key(user.toStdString());
     
     if (userKey.valid()) {
-        //qDebug()<<"found a local ticket";
         sd_journal_print(LOG_INFO,"found a local ticket");
         
         n4d::Ticket utk("https://127.0.0.1:9779",n4d::auth::Credential(user.toStdString(),userKey));
@@ -191,7 +182,6 @@ void Proxy::requestLocalTicket(QString user, QVariantList groups)
             
             if (!inGroups(gclient,groups)) {
                 emit ticket(Status::InvalidUserGroup,QLatin1String(""));
-                //qDebug()<<"Invalid group";
                 sd_journal_print(LOG_ERR,"user is not in a valid group");
                 return;
             }
@@ -201,7 +191,6 @@ void Proxy::requestLocalTicket(QString user, QVariantList groups)
         emit ticket(Status::CallSuccessful,n4dticket);
     }
     else {
-        //qDebug()<<"no local ticket found, requesting one...";
         sd_journal_print(LOG_INFO,"no local ticket found, requesting one...");
         
         QThread* worker = QThread::create([=]() {
@@ -220,7 +209,6 @@ void Proxy::requestLocalTicket(QString user, QVariantList groups)
                         
                         if (!inGroups(gclient,groups)) {
                             emit ticket(Status::InvalidUserGroup,QLatin1String(""));
-                            //qDebug()<<"Invalid group";
                             sd_journal_print(LOG_ERR,"user is not in a valid group");
                             return;
                         }
@@ -228,12 +216,9 @@ void Proxy::requestLocalTicket(QString user, QVariantList groups)
                     
                     QString n4dticket = QString::fromStdString(utk.to_string());
                     
-                    //qDebug()<<n4dticket;
-                    
                     emit ticket(Status::CallSuccessful,n4dticket);
                 }
                 else {
-                    //qDebug()<<"Invalid key:"<<QString::fromStdString(utk.get_credential().key.value);
                     sd_journal_print(LOG_ERR,"invalid key");
                     emit ticket(Status::InvalidKey,QLatin1String(""));
                 }
