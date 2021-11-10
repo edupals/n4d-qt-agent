@@ -44,6 +44,7 @@ QQC2.StackView {
     property bool trustLocal: false
     property var inGroups: []
     
+    signal authenticated(var passwd)
     signal logged(var ticket)
     signal canceled()
     signal failed(int code,string what)
@@ -81,6 +82,10 @@ QQC2.StackView {
         function onTicket(code,value) {
             firstPage.enabled=true;
             if (code==N4DAgent.Status.CallSuccessful) {
+                if (trustLocal==false) {
+                    root.authenticated(passwordField.text);
+                }
+                passwordField.text="";
                 root.push(secondPage);
                 root.logged(value);
             }
@@ -221,7 +226,6 @@ QQC2.StackView {
                 id: rowMessage
                 Layout.alignment: Qt.AlignCenter
                 Layout.fillWidth:true
-                //Layout.minimumHeight:32
                 
                 Kirigami.InlineMessage {
                     id: errorLabel
@@ -258,7 +262,6 @@ QQC2.StackView {
                     
                     onClicked: {
                         n4dAgent.requestTicket(addressField.text,userField.text,passwordField.text,root.inGroups);
-                        passwordField.text="";
                         firstPage.enabled=false;
                         errorLabel.visible=false;
                     }
@@ -271,7 +274,7 @@ QQC2.StackView {
     QQC2.Pane {
         id: secondPage
         width: 400
-        height: 320
+        height: 400
         visible: false
         
         ColumnLayout {
