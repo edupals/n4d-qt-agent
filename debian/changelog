@@ -1,3 +1,10 @@
+n4d-qt-agent (2.6.0.0) focal; urgency=medium
+
+  * Visual enhacements
+  * Added a signal with valid password
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 11 Nov 2021 00:27:32 +0100
+
 n4d-qt-agent (2.5.0.0) focal; urgency=medium
 
   * Merged and adapted patch from juanma. This patch adds a better description text to user.
