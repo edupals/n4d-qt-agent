@@ -10,17 +10,21 @@ Rectangle
     {
         id: loginWidget
         
-        //showAddress: true
+        showAddress: true
         //address: "https://localhost:9779"
         //user: "netadmin"
         showCancel: true
-        trustLocal: true
+        //trustLocal: true
         //inGroups: ["patata"]
         
         anchors.centerIn: parent
         
         onLogged: {
             console.log(ticket);
+        }
+        
+        onAuthenticated: {
+            console.log("passwd:",passwd)
         }
     }
 }

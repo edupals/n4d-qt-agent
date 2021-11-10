@@ -38,8 +38,8 @@ LoginWindow::LoginWindow(QString defaultAddress, bool showAddress, QString messa
     
     setTitle("N4D login");
     setIcon(QIcon::fromTheme("avatar-default-symbolic"));
-    setMaximumSize(QSize(460, 260));
-    setMinimumSize(QSize(460, 260));
+    setMaximumSize(QSize(400, 400));
+    setMinimumSize(QSize(400, 400));
     setFlags(Qt::Dialog);
     
     QQmlContext* ctxt = rootContext();
@@ -48,6 +48,7 @@ LoginWindow::LoginWindow(QString defaultAddress, bool showAddress, QString messa
     
     connect(bridge,&Bridge::logged, [](QString ticket) {
             cout<<ticket.toStdString()<<endl;
+            //QCoreApplication::exit(0);
         });
     
     connect(bridge,&Bridge::canceled, []() {
