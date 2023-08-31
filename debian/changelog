@@ -1,3 +1,9 @@
+n4d-qt-agent (2.6.0.1) jammy; urgency=medium
+
+  * Jammy release
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 31 Aug 2023 08:42:58 +0200
+
 n4d-qt-agent (2.6.0.0) focal; urgency=medium
 
   * Visual enhacements
