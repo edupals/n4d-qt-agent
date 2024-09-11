@@ -1,11 +1,10 @@
-find_package(ECM 1.0.0 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Qml Quick)
+find_package(Qt6 "6.7.0" REQUIRED COMPONENTS Qml Quick)
 
 find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
@@ -13,10 +12,6 @@ find_package(Threads REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SYSTEMD REQUIRED libsystemd)
-
-include(KDEInstallDirs)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
-include(KDECMakeSettings)
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions")
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -foperator-names")
@@ -32,6 +27,6 @@ target_link_libraries (edupalsn4dagentplugin
     ${SYSTEMD_LIBRARIES}
 )
 
-install (TARGETS edupalsn4dagentplugin DESTINATION ${KDE_INSTALL_QMLDIR}/Edupals/N4D/Agent)
-install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/Edupals/N4D/Agent)
-install(FILES Login.qml DESTINATION ${KDE_INSTALL_QMLDIR}/Edupals/N4D/Agent)
+install (TARGETS edupalsn4dagentplugin DESTINATION ${QT6_INSTALL_QML}/Edupals/N4D/Agent)
+install(FILES qmldir DESTINATION ${QT6_INSTALL_QML}/Edupals/N4D/Agent)
+install(FILES Login.qml DESTINATION ${QT6_INSTALL_QML}/Edupals/N4D/Agent)

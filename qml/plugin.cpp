@@ -83,7 +83,7 @@ static int completeURL(QString& address)
         return -1;
     }
     
-    if (url.scheme().count()==0) {
+    if (url.scheme().length()==0) {
         nurl.setScheme(QLatin1String("https"));
     }
     else {
@@ -97,8 +97,8 @@ static int completeURL(QString& address)
         nurl.setPort(url.port());
     }
     
-    if (url.host().count()==0) {
-        if (url.path().count()>0) {
+    if (url.host().length()==0) {
+        if (url.path().length()>0) {
             nurl.setHost(url.path());
         }
         else {

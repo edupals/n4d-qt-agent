@@ -1,11 +1,9 @@
 
-find_package(ECM 1.0.0 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Quick QuickWidgets)
+
+find_package(Qt6 "6.7.0" REQUIRED COMPONENTS Core Widgets Quick QuickWidgets)
 
 find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
