@@ -121,11 +121,11 @@ QQC2.StackView {
         id: firstPage
         width: root.width
         height: root.height
-        padding: units.largeSpacing
+        padding: Kirigami.Units.largeSpacing
         
         ColumnLayout {
             anchors.fill:parent
-            spacing: units.largeSpacing
+            spacing: Kirigami.Units.largeSpacing
             
             RowLayout {
                 Layout.alignment: Qt.AlignCenter
@@ -244,7 +244,7 @@ QQC2.StackView {
                 id: rowButtons
                 Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                 Layout.fillWidth:true
-                spacing: units.smallSpacing
+                spacing: Kirigami.Units.smallSpacing
                 
                 QQC2.Button {
                     id: btnCancel
@@ -279,7 +279,7 @@ QQC2.StackView {
         
         ColumnLayout {
             anchors.fill:parent
-            spacing: units.smallSpacing
+            spacing: Kirigami.Units.smallSpacing
             
             Item {
                 height: 16
@@ -298,7 +298,7 @@ QQC2.StackView {
             
             QQC2.Button {
                 Layout.alignment: Qt.AlignCenter
-                width: units.gridSpacing * 6
+                width: Kirigami.Units.gridSpacing * 6
                 
                 text: i18nd("n4d-qt-agent","Back")
                 
