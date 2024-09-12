@@ -1,7 +1,7 @@
 /*
     N4D Qt agent
 
-    Copyright (C) 2020  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+    Copyright (C) 2024  Enrique Medina Gremaldos <quique@necos.es>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

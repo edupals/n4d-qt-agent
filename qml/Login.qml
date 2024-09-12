@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2021 Lliurex project
+ * Copyright (C) 2024 Lliurex project
  *
  * Author:
- *  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+ *  Enrique Medina Gremaldos <quique@necos.es>
  *
  * Source:
  *  https://github.com/edupals/n4d-qt-agent
