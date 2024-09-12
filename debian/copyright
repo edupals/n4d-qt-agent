@@ -3,7 +3,7 @@ Upstream-Name: edupals-n4d-agent
 Source: https://github.com/edupals/edupals-n4d-toolkit
 
 Files: *
-Copyright: 2017-2019 Enrique Medina Gremaldos <quiqueiii@gmail.com>
+Copyright: 2017-2024 Enrique Medina Gremaldos <quique@necos.es>
 License: LGPL-2.1+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
