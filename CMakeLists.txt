@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(n4d-qt-agent)
 
-#add_subdirectory(src)
+add_subdirectory(src)
 add_subdirectory(qml)
 
 
