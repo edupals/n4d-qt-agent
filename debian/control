@@ -2,7 +2,7 @@ Source: n4d-qt-agent
 Section: libs
 Priority: optional
 Maintainer: Enrique Medina Gremaldos <quique@necos.es>
-Build-Depends: debhelper-compat (=13), cmake, make, g++, pkg-config, libedupals-base2 (>=2.1), libedupals-base-dev (>=2.1), libedupals-n4d2 (>=2.4), libedupals-n4d-dev (>=2.4), extra-cmake-modules, qt6-base-dev, qtdeclarative5-dev, libsystemd-dev
+Build-Depends: debhelper-compat (=13), cmake, make, g++, pkg-config, libedupals-base2 (>=2.1), libedupals-base-dev (>=2.1), libedupals-n4d2 (>=2.4), libedupals-n4d-dev (>=2.4), extra-cmake-modules, qt6-base-dev, qt6-declarative-dev, libsystemd-dev
 Standards-Version: 4.6.0
 Rules-Requires-Root: no
 Homepage: https://github.com/edupals/n4d-qt-agent
@@ -14,9 +14,11 @@ Provides: n4d-agent
 Description: Qt based N4D login agent
  Graphical utility to perform N4D ticket-based authentifications
 
-Package: qml-module-edupals-n4d-agent
+Package: qml6-module-edupals-n4d-agent
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-base2 (>= 2.1), libedupals-n4d2 (>=2.4), qml-module-qtquick-controls2, qml-module-org-kde-kirigami2, libsystemd0
+Provides: qml-module-edupals-n4d-agent
+Replaces: qml-module-edupals-n4d-agent
+Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-base2 (>= 2.1), libedupals-n4d2 (>=2.4), qt6-declarative, kf6-kirigami, libsystemd0
 Description: QML N4D Login Widget
  This is a QML module that provides a login agent widget
 

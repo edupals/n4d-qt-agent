@@ -1,3 +1,9 @@
+n4d-qt-agent (2.6.0.2) noble; urgency=medium
+
+  * Noble release with qt6/plasma6 migration
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Sat, 14 Sep 2024 18:16:31 +0200
+
 n4d-qt-agent (2.6.0.1) jammy; urgency=medium
 
   * Jammy release
