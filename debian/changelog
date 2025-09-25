@@ -1,3 +1,9 @@
+n4d-qt-agent (2.6.0.6) noble; urgency=medium
+
+  * Updated edupals dependency to proper one
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Thu, 25 Sep 2025 13:10:48 +0200
+
 n4d-qt-agent (2.6.0.5) noble; urgency=medium
 
   * Noble release with qt6/plasma6 migration

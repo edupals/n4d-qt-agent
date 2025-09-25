@@ -9,7 +9,7 @@ Homepage: https://github.com/edupals/n4d-qt-agent
 
 Package: n4d-qt-agent
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-base2 (>= 2.1), libedupals-n4d2 (>=2.4), qml-module-edupals-n4d-agent
+Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-base2 (>= 2.1), libedupals-n4d2 (>=2.4), qml6-module-edupals-n4d-agent
 Provides: n4d-agent
 Description: Qt based N4D login agent
  Graphical utility to perform N4D ticket-based authentifications
